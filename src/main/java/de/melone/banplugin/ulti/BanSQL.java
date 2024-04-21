@@ -23,7 +23,7 @@ public class BanSQL {
 
     private static MongoCollection<Document> collection;
     private static MongoClient mongoClient;
-    private static String uri = "mongodb://banuser:uAjg%5EbD%26gMcF9McCeiAymNneWkUt8mLh%26PqD2Fo2ynN8wNguUpVkh%23%40DGMx%26W8xXng2nYUphVr5rm6*rcZP3YRN%23b%5E%26Qpn%5EL5!EqmN7M79P3nDGQvqLPowar4!svC4Jj@185.239.238.243:27017/?authMechanism=SCRAM-SHA-1&authSource=Ban";
+    private static String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort +"/?authMechanism=SCRAM-SHA-1&authSource=" + BanPlugin.bansDatabase;
 
     public static void ConnectionBan() {
 
