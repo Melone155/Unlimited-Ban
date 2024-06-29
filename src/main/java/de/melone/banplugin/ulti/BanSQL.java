@@ -47,7 +47,7 @@ public class BanSQL {
     public static void CreatePlayerBan(Player player, LocalDateTime localDateTime, String reson, int bandauer) {
 
         if (!isMongoDBConnected(mongoClient)) {
-            player.sendMessage(Component.text(BanPlugin.prefix + "Fehler: 425 Bitte Kontaktieren sie einen Admin"));
+            player.sendMessage(Component.text(BanPlugin.prefixMiniMessage + "Fehler: 425 Bitte Kontaktieren sie einen Admin"));
         } else {
             System.out.println("Erfolgreich mit der MongoDB-Datenbank verbunden.");
 
