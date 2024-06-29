@@ -58,7 +58,7 @@ public class BanPlugin {
     public static int Hatespeech;
     public static int Illegal;
 
-    private static String prefixMiniMessage;
+    public static String prefixMiniMessage;
 
     @DataDirectory
     private final Path dataDirectory;
