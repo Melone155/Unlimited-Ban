@@ -31,6 +31,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
+                <configuration>
+                    <outputDirectory>C:\Users\maxim\Desktop\Server\Velocity\plugins</outputDirectory>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -71,6 +74,12 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
             <version>4.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.30</version>
         </dependency>
     </dependencies>
 </project>

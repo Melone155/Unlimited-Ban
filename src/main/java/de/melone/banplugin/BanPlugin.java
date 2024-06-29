@@ -11,17 +11,15 @@ import de.melone.banplugin.Listener.JoinEvent;
 import de.melone.banplugin.Listener.PlayerChat;
 import de.melone.banplugin.cmd.CMD_ban;
 import de.melone.banplugin.cmd.CMD_unban;
-import de.melone.banplugin.ulti.BanSQL;
-import de.melone.banplugin.ulti.BanlogSQL;
 import net.kyori.adventure.text.format.TextColor;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.*;
-import java.lang.reflect.Array;
-import java.nio.file.Files;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Map;
@@ -43,46 +41,41 @@ public class BanPlugin {
 
     public static String prefixMiniMessage = "<#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray> ";
 
-    private Logger logger;
+    private final Logger logger;
     private final ProxyServer server;
     private final CommandManager commandManager;
-    private ObjectInputFilter.Config config;
+
+    public static String bansHost;
+    public static int bansPort;
+    public static String bansDatabase;
+    public static String bansUsername;
+    public static String bansPassword;
+
+    public static String banlogHost;
+    public static int banlogPort;
+    public static String banlogDatabase;
+    public static String banlogUsername;
+    public static String banlogPassword;
 
     @DataDirectory
-    private Path dataDirectory;
-
-    File folder = new File("plugins/Bansystem");
-    File file = new File("plugins/Bansystem/MongoDB.yml");
-
-    public static String bansHost = "";
-    public static String bansPort = "";
-    public static String bansDatabase = "";
-    public static String bansUsername = "";
-    public static String bansPassword = "";
-
-    public static String banlogHost = "";
-    public static String banlogPort = "";
-    public static String banlogDatabase = "";
-    public static String banlogUsername = "";
-    public static String banlogPassword = "";
+    private final Path dataDirectory;
 
     @Inject
-    public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager) {
+    public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager, @DataDirectory Path dataDirectory) {
         this.server = server;
         this.logger = logger;
         this.commandManager = commandManager;
+        this.dataDirectory = dataDirectory;
 
-        logger.info("Ban Plugin ist Aktive ");
+        createConfig();
+        readYamlConfig("plugins/Bansystem/MongoDB.yml");
 
         //BanSQL.ConnectionBan();
         //BanlogSQL.ConnectionBan();
-
-        createConfig();
     }
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
-
         server.getEventManager().register(this, new JoinEvent());
         server.getEventManager().register(this, new PlayerChat());
 
@@ -92,7 +85,8 @@ public class BanPlugin {
     }
 
     private void createConfig() {
-
+        File folder = new File("plugins/Bansystem");
+        File file = new File("plugins/Bansystem/MongoDB.yml");
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -100,57 +94,50 @@ public class BanPlugin {
         if (!file.exists()) {
             try {
                 file.createNewFile();
+                try (FileWriter writer = new FileWriter(file)) {
+                    writer.write("Bans:\n" +
+                            "  host: localhost\n" +
+                            "  port: 27017\n" +
+                            "  database: mydatabase\n" +
+                            "  username: myuser\n" +
+                            "  password: mypassword\n" +
+                            "Banlog:\n" +
+                            "  host: localhost\n" +
+                            "  port: 27017\n" +
+                            "  database: mydatabase\n" +
+                            "  username: myuser\n" +
+                            "  password: mypassword\n");
+                } catch (IOException e) {
+                    logger.error("Could not create config file", e);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-        // YAML-Daten erstellen
-        String bans = "Bans:\n"
-                + "  host: localhost\n"
-                + "  port: 27017\n"
-                + "  database: mydatabase\n"
-                + "  username: myuser\n"
-                + "  password: mypassword\n";
-
-        String banlog = "Banlog:\n"
-                + "  host: localhost\n"
-                + "  port: 27017\n"
-                + "  database: mydatabase\n"
-                + "  username: myuser\n"
-                + "  password: mypassword\n";
-
-        // YAML-Datei schreiben
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(bans);
-            writer.write(banlog);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    private void Readfile() {
-        try (FileInputStream inputStream = new FileInputStream(file)) {
-            Yaml yaml = new Yaml();
+    public void readYamlConfig(String fileName) {
+        Yaml yaml = new Yaml();
+        try (InputStream inputStream = new FileInputStream(fileName)) {
+            if (inputStream == null) {
+                throw new IllegalArgumentException(fileName + " not found");
+            }
             Map<String, Object> data = yaml.load(inputStream);
 
-            // Daten auslesen
             Map<String, Object> bans = (Map<String, Object>) data.get("Bans");
-            String bansHost = (String) bans.get("host");
-            String bansPort = (String) bans.get("port");
-            String bansDatabase = (String) bans.get("database");
-            String bansUsername = (String) bans.get("username");
-            String bansPassword = (String) bans.get("password");
-
             Map<String, Object> banlog = (Map<String, Object>) data.get("Banlog");
-            String banlogHost = (String) banlog.get("host");
-            String banlogPort = (String) banlog.get("port");
-            String banlogDatabase = (String) banlog.get("database");
-            String banlogUsername = (String) banlog.get("username");
-            String banlogPassword = (String) banlog.get("password");
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            bansHost = (String) bans.get("host");
+            bansPort = (Integer) bans.get("port");
+            bansDatabase = (String) bans.get("database");
+            bansUsername = (String) bans.get("username");
+            bansPassword = (String) bans.get("password");
+
+            banlogHost = (String) banlog.get("host");
+            banlogPort = (Integer) banlog.get("port");
+            banlogDatabase = (String) banlog.get("database");
+            banlogUsername = (String) banlog.get("username");
+            banlogPassword = (String) banlog.get("password");
         } catch (Exception e) {
             e.printStackTrace();
         }
