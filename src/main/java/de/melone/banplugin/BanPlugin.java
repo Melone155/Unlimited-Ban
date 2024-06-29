@@ -33,12 +33,6 @@ public class BanPlugin {
 
     public static ArrayList<String> playerChatAllow = new ArrayList<>();
 
-    //public static String prefix = "§7[" + TextColor.color(255, 165, 0) + "F" + TextColor.color(246, 157, 14) + "u" + TextColor.color(236, 149, 7) + "c" +
-    //        TextColor.color(227, 141, 1) + "h" + TextColor.color(217, 133, 0) + "s" + TextColor.color(207, 125, 0) + "c" +
-    //        TextColor.color(198, 117, 0) + "r" + TextColor.color(188, 109, 0) + "a" + TextColor.color(179, 101, 0) + "f" +
-    //        TextColor.color(169, 93, 0) + "t" + TextColor.color(159, 85, 0) + "." + TextColor.color(149, 77, 0) + "d" +
-    //        TextColor.color(139, 69, 0) + "e" + "§7] ";
-
     private final Logger logger;
     private final ProxyServer server;
     private final CommandManager commandManager;
