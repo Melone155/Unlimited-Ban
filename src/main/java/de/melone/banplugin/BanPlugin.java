@@ -12,7 +12,6 @@ import de.melone.banplugin.cmd.CMD_ban;
 import de.melone.banplugin.cmd.CMD_unban;
 import de.melone.banplugin.ulti.BanSQL;
 import de.melone.banplugin.ulti.BanlogSQL;
-import net.kyori.adventure.text.format.TextColor;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
@@ -40,8 +39,6 @@ public class BanPlugin {
     //        TextColor.color(169, 93, 0) + "t" + TextColor.color(159, 85, 0) + "." + TextColor.color(149, 77, 0) + "d" +
     //        TextColor.color(139, 69, 0) + "e" + "§7] ";
 
-    public static String prefixMiniMessage = "<#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray> ";
-
     private final Logger logger;
     private final ProxyServer server;
     private final CommandManager commandManager;
@@ -66,6 +63,8 @@ public class BanPlugin {
     public static int Skin;
     public static int Hatespeech;
     public static int Illegal;
+
+    private static String prefixMiniMessage;
 
     @DataDirectory
     private final Path dataDirectory;
@@ -185,9 +184,11 @@ public class BanPlugin {
             }
             Map<String, Object> data = yaml.load(inputStream);
 
-            Map<String, Object> bans = (Map<String, Object>) data.get("time");
-            Map<String, Object> banlog = (Map<String, Object>) data.get("Prefix");
+            // Lese das Prefix aus und konvertiere es zu einem String
+            prefixMiniMessage = (String) data.get("Prefix");
 
+            // Lese die Ban-Zeiten aus
+            Map<String, Object> bans = (Map<String, Object>) data.get("time");
             Hacking = (Integer) bans.get("Hacking");
             AD = (Integer) bans.get("Werbung/AD");
             Spam = (Integer) bans.get("Spam");
@@ -201,4 +202,5 @@ public class BanPlugin {
             e.printStackTrace();
         }
     }
+
 }
