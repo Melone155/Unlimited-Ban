@@ -124,7 +124,7 @@ public class BanPlugin {
                 banfile.createNewFile();
                 try (FileWriter writer = new FileWriter(banfile)) {
                     writer.write("# All ban times are given in hours \n" +
-                            "Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray>" +
+                            "Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray> \n" +
                             "time: \n" +
                             "  Hacking: " + 1 + "\n" +
                             "  Werbung/AD: " + 1 + "\n" +
