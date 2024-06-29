@@ -184,10 +184,8 @@ public class BanPlugin {
             }
             Map<String, Object> data = yaml.load(inputStream);
 
-            // Lese das Prefix aus und konvertiere es zu einem String
             prefixMiniMessage = (String) data.get("Prefix");
 
-            // Lese die Ban-Zeiten aus
             Map<String, Object> bans = (Map<String, Object>) data.get("time");
             Hacking = (Integer) bans.get("Hacking");
             AD = (Integer) bans.get("Werbung/AD");
