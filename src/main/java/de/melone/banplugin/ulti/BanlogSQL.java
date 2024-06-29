@@ -13,10 +13,7 @@ import net.kyori.adventure.text.Component;
 import org.bson.Document;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -83,6 +80,18 @@ public class BanlogSQL {
                 collection.updateOne(query, new Document("$set", new Document("Log", logs)));
 
             }
+        }
+    }
+
+    public static List<Document> GetPlayerBans(Player player, UUID playerUUID) {
+        Document query = new Document("_id", playerUUID.toString());
+        Document existingDoc = collection.find(query).first();
+
+        if (existingDoc != null) {
+            return existingDoc.getList("Log", Document.class);
+        } else {
+            player.sendMessage(Component.text( BanPlugin.prefixMiniMessage + "Keine Einträge für diesem Spieler Gefunden"));
+            return null;
         }
     }
 }
