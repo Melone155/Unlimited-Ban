@@ -12,7 +12,6 @@ public class JoinEvent {
     @Subscribe
     public void onPlayerJoin(PlayerChooseInitialServerEvent event) {
         Player player = event.getPlayer();
-        player.sendMessage(Component.text("test"));
         BanSQL.GetPlayerBan(player);
     }
 }

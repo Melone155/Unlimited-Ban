@@ -8,9 +8,10 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import de.melone.banplugin.Listener.JoinEvent;
-import de.melone.banplugin.Listener.PlayerChat;
 import de.melone.banplugin.cmd.CMD_ban;
 import de.melone.banplugin.cmd.CMD_unban;
+import de.melone.banplugin.ulti.BanSQL;
+import de.melone.banplugin.ulti.BanlogSQL;
 import net.kyori.adventure.text.format.TextColor;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
@@ -57,6 +58,15 @@ public class BanPlugin {
     public static String banlogUsername;
     public static String banlogPassword;
 
+    public static int Hacking;
+    public static int AD;
+    public static int Spam;
+    public static int insult;
+    public static int Bugusing;
+    public static int Skin;
+    public static int Hatespeech;
+    public static int Illegal;
+
     @DataDirectory
     private final Path dataDirectory;
 
@@ -68,16 +78,16 @@ public class BanPlugin {
         this.dataDirectory = dataDirectory;
 
         createConfig();
-        readYamlConfig("plugins/Bansystem/MongoDB.yml");
+        readBanConfig("plugins/Bansystem/MongoDB.yml");
+        readSettingsConfig("plugins/Bansystem/Ban.yml");
 
-        //BanSQL.ConnectionBan();
-        //BanlogSQL.ConnectionBan();
+        BanSQL.ConnectionBan();
+        BanlogSQL.ConnectionBan();
     }
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         server.getEventManager().register(this, new JoinEvent());
-        server.getEventManager().register(this, new PlayerChat());
 
         CommandManager commandManager = server.getCommandManager();
         commandManager.register("ban", new CMD_ban(server));
@@ -87,6 +97,7 @@ public class BanPlugin {
     private void createConfig() {
         File folder = new File("plugins/Bansystem");
         File file = new File("plugins/Bansystem/MongoDB.yml");
+        File banfile = new File("plugins/Bansystem/Ban.yml");
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -114,9 +125,31 @@ public class BanPlugin {
                 e.printStackTrace();
             }
         }
+
+        if (!banfile.exists()) {
+            try {
+                banfile.createNewFile();
+                try (FileWriter writer = new FileWriter(banfile)) {
+                    writer.write("# All ban times are given in hours \n" +
+                            "time: \n" +
+                            "  Hacking: " + 1 + "\n" +
+                            "  Werbung/AD: " + 1 + "\n" +
+                            "  Spam: " + 1 + "\n" +
+                            "  Beleidigung/insult: " + 1 + "\n" +
+                            "  Bugusing: " + 1 + "\n" +
+                            "  Skin: " + 1 + "\n" +
+                            "  Hatespeech/Diskriminierung/Rassismus: " + 1 + "\n" +
+                            "  Verbotene Buildings/Illegal buildings: "  + 1 + "\n");
+                } catch (IOException e) {
+                    logger.error("Could not create config file", e);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public void readYamlConfig(String fileName) {
+    public void readBanConfig(String fileName) {
         Yaml yaml = new Yaml();
         try (InputStream inputStream = new FileInputStream(fileName)) {
             if (inputStream == null) {
@@ -138,6 +171,30 @@ public class BanPlugin {
             banlogDatabase = (String) banlog.get("database");
             banlogUsername = (String) banlog.get("username");
             banlogPassword = (String) banlog.get("password");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readSettingsConfig(String fileName) {
+        Yaml yaml = new Yaml();
+        try (InputStream inputStream = new FileInputStream(fileName)) {
+            if (inputStream == null) {
+                throw new IllegalArgumentException(fileName + " not found");
+            }
+            Map<String, Object> data = yaml.load(inputStream);
+
+            Map<String, Object> bans = (Map<String, Object>) data.get("time");
+
+            Hacking = (Integer) bans.get("Hacking");
+            AD = (Integer) bans.get("Werbung/AD");
+            Spam = (Integer) bans.get("Spam");
+            insult = (Integer) bans.get("Beleidigung/insult");
+            Bugusing = (Integer) bans.get("Bugusing");
+            Skin = (Integer) bans.get("Skin");
+            Hatespeech = (Integer) bans.get("Hatespeech/Diskriminierung/Rassismus");
+            Illegal = (Integer) bans.get("Verbotene Buildings/Illegal buildings");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

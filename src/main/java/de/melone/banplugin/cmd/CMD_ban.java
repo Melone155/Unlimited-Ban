@@ -38,31 +38,31 @@ public class CMD_ban implements SimpleCommand {
                         LocalDateTime timenow = LocalDateTime.now();
 
                         if (argument.equals("1")) {
-                            BanPlayer(targetPlayer,player, timenow, "Hacking", 20);
+                            BanPlayer(targetPlayer,player, timenow, "Hacking", BanPlugin.Hacking);
 
                         } else  if (argument.equals("2")) {
-                            ChatBanPlayer(targetPlayer,player, timenow, "Werbung", 20);
+                            ChatBanPlayer(targetPlayer,player, timenow, "Werbung", BanPlugin.AD);
                             BanPlugin.playerChatAllow.add(targetPlayer.getUniqueId().toString());
 
                         } else  if (argument.equals("3")) {
-                            ChatBanPlayer(targetPlayer,player, timenow, "Spam", 20);
+                            ChatBanPlayer(targetPlayer,player, timenow, "Spam", BanPlugin.Spam);
                             BanPlugin.playerChatAllow.add(targetPlayer.getUniqueId().toString());
 
                         } else  if (argument.equals("4")) {
-                            ChatBanPlayer(targetPlayer,player, timenow, "Beleidigung", 20);
+                            ChatBanPlayer(targetPlayer,player, timenow, "Beleidigung", BanPlugin.insult);
                             BanPlugin.playerChatAllow.add(targetPlayer.getUniqueId().toString());
 
                         } else  if (argument.equals("5")) {
-                            BanPlayer(targetPlayer,player, timenow, "Bugusing", 20);
+                            BanPlayer(targetPlayer,player, timenow, "Bugusing", BanPlugin.Bugusing);
 
                         } else  if (argument.equals("6")) {
-                            BanPlayer(targetPlayer,player, timenow, "Skin", 20);
+                            BanPlayer(targetPlayer,player, timenow, "Skin", BanPlugin.Skin);
 
                         } else  if (argument.equals("7")) {
-                            BanPlayer(targetPlayer,player, timenow, "Hatespeech/Diskriminierung/Rassismus", 20);
+                            BanPlayer(targetPlayer,player, timenow, "Hatespeech/Diskriminierung/Rassismus", BanPlugin.Hatespeech);
 
                         } else  if (argument.equals("8")) {
-                            BanPlayer(targetPlayer,player, timenow, "Verbotene Buildings", 20);
+                            BanPlayer(targetPlayer,player, timenow, "Verbotene Buildings", BanPlugin.Illegal);
 
                         }
 
@@ -82,9 +82,6 @@ public class CMD_ban implements SimpleCommand {
                                 "<newline>7. Hatespeech/Diskriminierung/Rassismus" +
                                 "<newline>8. Verbotene Buildings"
                         ));
-                    } else if (argument.equals("test")) {
-                        BanPlugin.playerChatAllow.add((player.getUniqueId().toString()));
-                        player.sendMessage(Component.text("Du hast einen Chat ban"));
                     } else {
                         player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
                     }
@@ -95,11 +92,11 @@ public class CMD_ban implements SimpleCommand {
     }
 
     private void PlayerKick(Player player){
-        player.disconnect(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "<newline> Für mehr Infomationen Join erneut auf das Netzwerk"));
+        player.disconnect(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "<newline> Du Wurdest verfahrt/gebannt bitte Join Neu für mehr Infos"));
     }
 
-    private void BanPlayer(Player targetPlayer, Player player,LocalDateTime timenow, String reson, int dauerinTage){
-        BanSQL.CreatePlayerBan(targetPlayer, timenow, reson, dauerinTage);
+    private void BanPlayer(Player targetPlayer, Player player,LocalDateTime timenow, String reson, int timeinmin){
+        BanSQL.CreatePlayerBan(targetPlayer, timenow, reson, timeinmin);
         BanlogSQL.CreatePlayerBan(targetPlayer, player, reson, timenow);
         PlayerKick(targetPlayer);
         player.sendMessage(Component.text(BanPlugin.prefixMiniMessage + "Du hast den Spieler " + targetPlayer.getGameProfile().getName().toString() + " vom Server gebannt wegen " + reson));

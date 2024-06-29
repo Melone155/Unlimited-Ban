@@ -23,7 +23,7 @@ public class BanSQL {
 
     private static MongoCollection<Document> collection;
     private static MongoClient mongoClient;
-    private static String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort +"/?authMechanism=SCRAM-SHA-1&authSource=" + BanPlugin.bansDatabase;
+    private static String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort + "/?authMechanism=SCRAM-SHA-1&authSource=" + BanPlugin.bansDatabase;
 
     public static void ConnectionBan() {
 
@@ -44,7 +44,7 @@ public class BanSQL {
         }
     }
 
-    public static void CreatePlayerBan(Player player, LocalDateTime localDateTime, String reson, int bandauer){
+    public static void CreatePlayerBan(Player player, LocalDateTime localDateTime, String reson, int bandauer) {
 
         if (!isMongoDBConnected(mongoClient)) {
             player.sendMessage(Component.text(BanPlugin.prefix + "Fehler: 425 Bitte Kontaktieren sie einen Admin"));
@@ -57,7 +57,7 @@ public class BanSQL {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             String formatDateTime = time.format(formatter);
 
-            if (doc == null){
+            if (doc == null) {
                 InsertOneResult result = collection.insertOne(new Document()
                         .append("_id", player.getUniqueId().toString())
                         .append("name", player.getGameProfile().getName())
@@ -69,10 +69,10 @@ public class BanSQL {
         }
     }
 
-    public static void GetPlayerBan(Player player){
+    public static void GetPlayerBan(Player player) {
         Document doc = collection.find(eq("_id", player.getUniqueId().toString())).first();
 
-        if (doc != null){
+        if (doc != null) {
             String date = doc.getString("Time");
             String reson = doc.getString("reson");
             String datumentbann = doc.getString("Timeforplayer");
@@ -85,30 +85,19 @@ public class BanSQL {
             LocalDateTime playertime = LocalDateTime.parse(date);
 
             if (time.isBefore(playertime)) {
-             switch (reson){
-                 case "Werbung":
-                     BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
-                     break;
-                 case "Spam":
-                     BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
-                     break;
-                 case "Beleidigung":
-                     BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
-                 default:
-                     player.disconnect(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage +
-                             "<newline> Du Wurdest von unserem Netzwerk Gebannt" +
-                             "<newline> Grund: " + reson +
-                             "<newline> Bis zum " + datumentbann +
-                             "<newline> Sollte es ihr ein mis verstehnis geben ehe auf fuchscraft.de/entbannung"));
-                     break;
-             }
-            } else {
-                collection.deleteOne(eq("_id", player.getUniqueId().toString()));
+                player.disconnect(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage +
+                        "<newline> Du Wurdest von unserem Netzwerk Gebannt" +
+                        "<newline> Grund: " + reson +
+                        "<newline> Bis zum " + datumentbann +
+                        "<newline> Sollte es ihr ein mis verstehnis geben ehe auf fuchscraft.de/entbannung"));
+
             }
+        } else {
+            collection.deleteOne(eq("_id", player.getUniqueId().toString()));
         }
     }
 
-    public static void GetPlayerChatBan(Player player){
+    public static void GetPlayerChatBan(Player player) {
         Document doc = collection.find(eq("_id", player.getUniqueId().toString())).first();
         String reson = doc.getString("reson");
         String datumentbann = doc.getString("Timeforplayer");
@@ -116,8 +105,9 @@ public class BanSQL {
         player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "Du wurdest wegen " + reson + " aus dem Chat gebannt bis zum " + datumentbann));
     }
 
-    public static void Playerunban(Player targetPlayer, Player player){
+    public static void Playerunban(Player targetPlayer, Player player) {
         collection.deleteOne(eq("_id", targetPlayer.getUniqueId().toString()));
-        player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "Du hast den Spieler " + targetPlayer.getGameProfile().getName() +  "Entbannt"));
+        player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "Du hast den Spieler " + targetPlayer.getGameProfile().getName() + "Entbannt"));
     }
 }
+
