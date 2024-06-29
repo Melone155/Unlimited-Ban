@@ -20,14 +20,14 @@ import static com.mongodb.client.model.Filters.eq;
 public class BanlogSQL {
 
     private static MongoCollection<Document> collection;
-    private static MongoClient mongoClient;
-    private static String uri = "mongodb://" + BanPlugin.banlogUsername + ":" + BanPlugin.banlogPassword + "@" + BanPlugin.banlogHost + ":" + BanPlugin.banlogPort + "/?authMechanism=SCRAM-SHA-1&authSource=" + BanPlugin.banlogDatabase;
+    public static MongoClient mongoClient;
+    private static String uri = "mongodb://" + BanPlugin.banlogUsername + ":" + BanPlugin.banlogPassword + "@" + BanPlugin.banlogHost + ":" + BanPlugin.banlogPort + "/?authMechanism=SCRAM-SHA-256";
 
     public static void ConnectionBan() {
 
         mongoClient = MongoClients.create(uri);
-        MongoDatabase database = mongoClient.getDatabase("Ban");
-        collection = database.getCollection("banlog");
+        MongoDatabase database = mongoClient.getDatabase(BanPlugin.banlogDatabase);
+        collection = database.getCollection(BanPlugin.banlogCollection);
 
     }
 

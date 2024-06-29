@@ -22,14 +22,14 @@ import static com.mongodb.client.model.Filters.eq;
 public class BanSQL {
 
     private static MongoCollection<Document> collection;
-    private static MongoClient mongoClient;
-    private static String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort + "/?authMechanism=SCRAM-SHA-1&authSource=" + BanPlugin.bansDatabase;
+    public static MongoClient mongoClient;
+    private static String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort + "/?authMechanism=SCRAM-SHA-256";
 
     public static void ConnectionBan() {
 
         mongoClient = MongoClients.create(uri);
-        MongoDatabase database = mongoClient.getDatabase("Ban");
-        collection = database.getCollection("bans");
+        MongoDatabase database = mongoClient.getDatabase(BanPlugin.bansDatabase);
+        collection = database.getCollection(BanPlugin.bansCollection);
 
     }
 

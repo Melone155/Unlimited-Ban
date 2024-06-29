@@ -40,12 +40,14 @@ public class BanPlugin {
     public static String bansHost;
     public static int bansPort;
     public static String bansDatabase;
+    public static String bansCollection;
     public static String bansUsername;
     public static String bansPassword;
 
     public static String banlogHost;
     public static int banlogPort;
     public static String banlogDatabase;
+    public static String banlogCollection;
     public static String banlogUsername;
     public static String banlogPassword;
 
@@ -73,6 +75,8 @@ public class BanPlugin {
         createConfig();
         readBanConfig("plugins/Bansystem/MongoDB.yml");
         readSettingsConfig("plugins/Bansystem/Ban.yml");
+
+        System.out.println(bansCollection);
 
         BanSQL.ConnectionBan();
         BanlogSQL.ConnectionBan();
@@ -103,12 +107,14 @@ public class BanPlugin {
                             "  host: localhost\n" +
                             "  port: 27017\n" +
                             "  database: mydatabase\n" +
+                            "  collection: myocllection\n" +
                             "  username: myuser\n" +
                             "  password: mypassword\n" +
                             "Banlog:\n" +
                             "  host: localhost\n" +
                             "  port: 27017\n" +
                             "  database: mydatabase\n" +
+                            "  collection: myocllection\n" +
                             "  username: myuser\n" +
                             "  password: mypassword\n");
                 } catch (IOException e) {
@@ -157,12 +163,14 @@ public class BanPlugin {
             bansHost = (String) bans.get("host");
             bansPort = (Integer) bans.get("port");
             bansDatabase = (String) bans.get("database");
+            bansCollection = (String) bans.get("collection");
             bansUsername = (String) bans.get("username");
             bansPassword = (String) bans.get("password");
 
             banlogHost = (String) banlog.get("host");
             banlogPort = (Integer) banlog.get("port");
             banlogDatabase = (String) banlog.get("database");
+            banlogCollection = (String) bans.get("collection");
             banlogUsername = (String) banlog.get("username");
             banlogPassword = (String) banlog.get("password");
         } catch (Exception e) {

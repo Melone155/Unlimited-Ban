@@ -94,7 +94,7 @@ public class CMD_ban implements SimpleCommand {
     }
 
     private void PlayerKick(Player player){
-        player.disconnect(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "<newline> Du Wurdest verfahrt/gebannt bitte Join Neu für mehr Infos"));
+        player.disconnect(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "<newline> Du Wurdest verwarnt/gebannt bitte Join Neu für mehr Infos"));
     }
 
     private void BanPlayer(Player targetPlayer, Player player,LocalDateTime timenow, String reson, int timeinmin){
