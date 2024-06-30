@@ -38,32 +38,60 @@ public class CMD_ban implements SimpleCommand {
                         LocalDateTime timenow = LocalDateTime.now();
 
                         if (argument.equals("1")) {
-                            BanPlayer(targetPlayer,player, timenow, "Hacking", BanPlugin.Hacking);
+                            if (BanPlugin.type1 == "Server"){
+                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson1, Integer.valueOf(BanPlugin.time1));
+                            } else {
+                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson1, Integer.valueOf(BanPlugin.time1));
+                            }
 
                         } else  if (argument.equals("2")) {
-                            ChatBanPlayer(targetPlayer,player, timenow, "Werbung", BanPlugin.AD);
-                            BanPlugin.playerChatAllow.add(targetPlayer.getUniqueId().toString());
+                            if (BanPlugin.type2 == "Server"){
+                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson2, Integer.valueOf(BanPlugin.time2));
+                            } else {
+                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson2, Integer.valueOf(BanPlugin.time2));
+                            }
 
                         } else  if (argument.equals("3")) {
-                            ChatBanPlayer(targetPlayer,player, timenow, "Spam", BanPlugin.Spam);
-                            BanPlugin.playerChatAllow.add(targetPlayer.getUniqueId().toString());
+                            if (BanPlugin.type3 == "Server"){
+                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson3, Integer.valueOf(BanPlugin.time3));
+                            } else {
+                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson3, Integer.valueOf(BanPlugin.time3));
+                            }
 
                         } else  if (argument.equals("4")) {
-                            ChatBanPlayer(targetPlayer,player, timenow, "Beleidigung", BanPlugin.insult);
-                            BanPlugin.playerChatAllow.add(targetPlayer.getUniqueId().toString());
+                            if (BanPlugin.type4 == "Server"){
+                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson4, Integer.valueOf(BanPlugin.time4));
+                            } else {
+                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson4, Integer.valueOf(BanPlugin.time4));
+                            }
 
                         } else  if (argument.equals("5")) {
-                            BanPlayer(targetPlayer,player, timenow, "Bugusing", BanPlugin.Bugusing);
+                            if (BanPlugin.type5 == "Server"){
+                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson5, Integer.valueOf(BanPlugin.time5));
+                            } else {
+                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson5, Integer.valueOf(BanPlugin.time5));
+                            }
 
                         } else  if (argument.equals("6")) {
-                            BanPlayer(targetPlayer,player, timenow, "Skin", BanPlugin.Skin);
+                            if (BanPlugin.type6 == "Server"){
+                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson6, Integer.valueOf(BanPlugin.time6));
+                            } else {
+                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson6, Integer.valueOf(BanPlugin.time6));
+                            }
 
                         } else  if (argument.equals("7")) {
-                            BanPlayer(targetPlayer,player, timenow, "Hatespeech/Diskriminierung/Rassismus", BanPlugin.Hatespeech);
+                            if (BanPlugin.type7 == "Server"){
+                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson7, Integer.valueOf(BanPlugin.time7));
+                            } else {
+                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson7, Integer.valueOf(BanPlugin.time7));
+                            }
 
                         } else  if (argument.equals("8")) {
-                            BanPlayer(targetPlayer,player, timenow, "Verbotene Buildings", BanPlugin.Illegal);
-
+                            if (BanPlugin.type8 == "Server"){
+                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson8, Integer.valueOf(BanPlugin.time8));
+                            } else {
+                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson8, Integer.valueOf(BanPlugin.time8));
+                            }
                         }
 
                     } else {
@@ -73,14 +101,14 @@ public class CMD_ban implements SimpleCommand {
                     String argument = args[0];
                     if (argument.equals("list")) {
                         player.sendMessage(MiniMessage.miniMessage().deserialize("========== " + BanPlugin.prefixMiniMessage + " ==========" +
-                                "<newline>1. Hacking" +
-                                "<newline>2. Werbung" +
-                                "<newline>3. Spam" +
-                                "<newline>4. Beleidigung" +
-                                "<newline>5. Bugusing" +
-                                "<newline>6. Skin" +
-                                "<newline>7. Hatespeech/Diskriminierung/Rassismus" +
-                                "<newline>8. Verbotene Buildings"
+                                "<newline>1. " + BanPlugin.reson1 +
+                                "<newline>2. " + BanPlugin.reson2 +
+                                "<newline>3. " + BanPlugin.reson3 +
+                                "<newline>4. " + BanPlugin.reson4 +
+                                "<newline>5. " + BanPlugin.reson5 +
+                                "<newline>6. " + BanPlugin.reson6 +
+                                "<newline>7. " + BanPlugin.reson7 +
+                                "<newline>8. " + BanPlugin.reson8
                         ));
                     } else {
                         player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
@@ -106,5 +134,12 @@ public class CMD_ban implements SimpleCommand {
         BanSQL.CreatePlayerBan(targetPlayer, timenow, reson, dauerinTage);
         BanlogSQL.CreatePlayerBan(targetPlayer, player, reson, timenow);
         player.sendMessage(Component.text(BanPlugin.prefixMiniMessage + "Du hast den Spieler " + targetPlayer.getGameProfile().getName().toString() + " auf dem Chat gebannt wegen " + reson));
+    }
+
+    private static String ConfigMessages(String message, String playerName) {
+        if (message.contains("%spieler%") || message.contains("targetPlayer%") || message.contains("%reson%") || message.contains("%prefix%")) {
+            return message.replace("%spieler%", playerName);
+        }
+        return message;
     }
 }
