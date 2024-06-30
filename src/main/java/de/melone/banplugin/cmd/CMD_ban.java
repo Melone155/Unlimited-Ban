@@ -64,8 +64,6 @@ public class CMD_ban implements SimpleCommand {
                         } else  if (argument.equals("8")) {
                             BanPlayer(targetPlayer,player, timenow, "Verbotene Buildings", BanPlugin.Illegal);
 
-                        } else if (argument.equals("log")) {
-                            BanlogSQL.GetPlayerBans(player, targetPlayer.getUniqueId());
                         }
 
                     } else {

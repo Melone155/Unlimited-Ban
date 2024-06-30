@@ -9,6 +9,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import de.melone.banplugin.Listener.JoinEvent;
 import de.melone.banplugin.cmd.CMD_ban;
+import de.melone.banplugin.cmd.CMD_banlog;
 import de.melone.banplugin.cmd.CMD_unban;
 import de.melone.banplugin.ulti.BanSQL;
 import de.melone.banplugin.ulti.BanlogSQL;
@@ -76,8 +77,6 @@ public class BanPlugin {
         readBanConfig("plugins/Bansystem/MongoDB.yml");
         readSettingsConfig("plugins/Bansystem/Ban.yml");
 
-        System.out.println(bansCollection);
-
         BanSQL.ConnectionBan();
         BanlogSQL.ConnectionBan();
     }
@@ -89,6 +88,7 @@ public class BanPlugin {
         CommandManager commandManager = server.getCommandManager();
         commandManager.register("ban", new CMD_ban(server));
         commandManager.register("unban", new CMD_unban(server));
+        commandManager.register("banlog", new CMD_banlog(server));
     }
 
     private void createConfig() {
@@ -170,7 +170,7 @@ public class BanPlugin {
             banlogHost = (String) banlog.get("host");
             banlogPort = (Integer) banlog.get("port");
             banlogDatabase = (String) banlog.get("database");
-            banlogCollection = (String) bans.get("collection");
+            banlogCollection = (String) banlog.get("collection");
             banlogUsername = (String) banlog.get("username");
             banlogPassword = (String) banlog.get("password");
         } catch (Exception e) {
