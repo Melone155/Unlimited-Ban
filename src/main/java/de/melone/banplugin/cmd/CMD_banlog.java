@@ -24,6 +24,7 @@ public class CMD_banlog implements SimpleCommand {
     private static String fromplayer;
     private static String grund;
     private static LocalDateTime datum;
+    private static DateTimeFormatter formatter;
 
     public CMD_banlog(ProxyServer proxy) {
         this.proxy = proxy;
@@ -43,7 +44,7 @@ public class CMD_banlog implements SimpleCommand {
                 Player targetPlayer = optionalPlayer.get();
                 if (optionalPlayer.isPresent()) {
 
-                    BanlogSQL.GetPlayerBan(targetPlayer.getUniqueId().toString(), player);
+                    GetPlayerBan(targetPlayer.getUniqueId().toString(), player);
                 }
             } else if (invocation.arguments().length == 2) {
                 String playerName = args[0];
@@ -52,7 +53,7 @@ public class CMD_banlog implements SimpleCommand {
                 Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
                 Player targetPlayer = optionalPlayer.get();
 
-                BanlogSQL.GetPlayerBanCount(targetPlayer.getUniqueId().toString(), player, count);
+                GetPlayerBanCount(targetPlayer.getUniqueId().toString(), player, count);
             }
         }
     }
@@ -72,17 +73,11 @@ public class CMD_banlog implements SimpleCommand {
                 grund = selectedBan.getString("Grund");
                 Date date = selectedBan.getDate("Datum");
 
-                datum = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+                formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
-                player.sendMessage(MiniMessage.miniMessage().deserialize(
-                        "========== " + BanPlugin.prefixMiniMessage + " ==========" +
-                                "<newline> Ban Nummer: " +logIndex +
-                                "<newline> Ban:" +
-                                "<newline> Grund: " + grund +
-                                "<newline> Von: " + fromplayer +
-                                "<newline>Datum: " + datum.format(formatter)
-                ));
+                datum = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+                player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Banlog2)));
             } else {
                 player.sendMessage(Component.text("Ungültiger Ban-Index."));
             }
@@ -100,32 +95,25 @@ public class CMD_banlog implements SimpleCommand {
             List<Document> logs = playerDoc.getList("Log", Document.class);
             Document lastBan = logs.get(logs.size() - 1);
 
-            String fromplayer = lastBan.getString("Von");
-            String grund = lastBan.getString("Grund");
+            fromplayer = lastBan.getString("Von");
+            grund = lastBan.getString("Grund");
             Date date = lastBan.getDate("Datum");
 
             LocalDateTime datum = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+            formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
-            player.sendMessage(MiniMessage.miniMessage().deserialize(
-                    "========== " + BanPlugin.prefixMiniMessage + " ==========" +
-                            "<newline> Punkte: " + points +
-                            "<newline> Anzahl an Bans: " + logs.size() +
-                            "<newline> Letzter Ban:" +
-                            "<newline> Grund: " + grund +
-                            "<newline> Von: " + fromplayer +
-                            "<newline>Datum: " + datum.format(formatter)
-            ));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Banlog1)));
         } else {
             player.sendMessage(Component.text("Kein Eintrag für dieen Spieler gefunden."));
         }
     }
-}
 
     private static String ConfigMessages(String message) {
         if (message.contains("%logssize%")  || message.contains("%points%") || message.contains("%fromplayer%") || message.contains("%date%")) {
             return message.replace("%spieler%", player.getUsername())
-                    .replace("%points%", reson)
+                    .replace("%points%", grund)
+                    .replace("%fromplayer%", fromplayer)
+                    .replace("%date%", datum.format(formatter))
                     .replace("%prefix%", BanPlugin.prefixMiniMessage);
         }
         return message;
