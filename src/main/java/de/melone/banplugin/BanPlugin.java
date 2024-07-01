@@ -85,6 +85,12 @@ public class BanPlugin {
     public static String type8;
 
     public static String prefixMiniMessage;
+    public static String KickMessage;
+    public static String ReturnBan;
+    public static String ReturnChatban;
+    public static String Banlog1;
+    public static String Banlog2;
+    public static String NotFound;
 
     @DataDirectory
     private final Path dataDirectory;
@@ -341,16 +347,12 @@ public class BanPlugin {
             Map<String, Object> data = yaml.load(inputStream);
 
             prefixMiniMessage = (String) data.get("Prefix");
-
-            Map<String, Object> bans = (Map<String, Object>) data.get("Bans");
-            //Hacking = (Integer) bans.get("Hacking");
-            //AD = (Integer) bans.get("Werbung/AD");
-            //Spam = (Integer) bans.get("Spam");
-            //insult = (Integer) bans.get("Beleidigung/insult");
-            //Bugusing = (Integer) bans.get("Bugusing");
-            //Skin = (Integer) bans.get("Skin");
-            //Hatespeech = (Integer) bans.get("Hatespeech/Diskriminierung/Rassismus");
-            //Illegal = (Integer) bans.get("Verbotene Buildings/Illegal buildings");
+            KickMessage = (String) data.get("KickMessage");
+            ReturnBan = (String) data.get("ReturnBan");
+            ReturnChatban = (String) data.get("ReturnChatban");
+            Banlog1 = (String) data.get("Banlog1");
+            Banlog2 = (String) data.get("Banlog2");
+            NotFound = (String) data.get("NotFound");
 
         } catch (Exception e) {
             e.printStackTrace();

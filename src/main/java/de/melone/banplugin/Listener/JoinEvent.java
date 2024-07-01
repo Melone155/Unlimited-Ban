@@ -6,8 +6,6 @@ import com.velocitypowered.api.proxy.Player;
 import de.melone.banplugin.BanPlugin;
 import de.melone.banplugin.ulti.BanSQL;
 import de.melone.banplugin.ulti.BanlogSQL;
-import de.melone.banplugin.ulti.GetBanSQL;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class JoinEvent {

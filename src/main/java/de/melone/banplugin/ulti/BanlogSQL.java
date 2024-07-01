@@ -20,7 +20,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class BanlogSQL {
 
-    private static MongoCollection<Document> collection;
+    public static MongoCollection<Document> collection;
     public static MongoClient mongoClient;
     private static String uri = "mongodb://" + BanPlugin.banlogUsername + ":" + BanPlugin.banlogPassword + "@" + BanPlugin.banlogHost + ":" + BanPlugin.banlogPort + "/?authMechanism=SCRAM-SHA-256";
 
@@ -82,76 +82,5 @@ public class BanlogSQL {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static void GetPlayerBan(String uuid, Player player) {
-        Document query = new Document("_id", uuid);
-        Document playerDoc = collection.find(query).first();
-
-        if (playerDoc != null) {
-            int points = playerDoc.getInteger("Punkte");
-            List<Document> logs = playerDoc.getList("Log", Document.class);
-            Document lastBan = logs.get(logs.size() - 1);
-
-            String fromplayer = lastBan.getString("Von");
-            String grund = lastBan.getString("Grund");
-            Date date = lastBan.getDate("Datum");
-
-            LocalDateTime datum = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
-            player.sendMessage(MiniMessage.miniMessage().deserialize(
-                        "========== " + BanPlugin.prefixMiniMessage + " ==========" +
-                            "<newline> Punkte: " + points +
-                            "<newline> Anzahl an Bans: " + logs.size() +
-                            "<newline> Letzter Ban:" +
-                            "<newline> Grund: " + grund +
-                            "<newline> Von: " + fromplayer +
-                            "<newline>Datum: " + datum.format(formatter)
-            ));
-        } else {
-            player.sendMessage(Component.text("Kein Eintrag für dieen Spieler gefunden."));
-        }
-    }
-
-    public static void GetPlayerBanCount(String uuid, Player player, int logIndex) {
-        Document query = new Document("_id", uuid);
-        Document playerDoc = collection.find(query).first();
-
-        if (playerDoc != null) {
-            int points = playerDoc.getInteger("Punkte");
-            List<Document> logs = playerDoc.getList("Log", Document.class);
-
-            if (logIndex > 0 && logIndex <= logs.size()) {
-                Document selectedBan = logs.get(logIndex - 1);
-
-                String fromplayer = selectedBan.getString("Von");
-                String grund = selectedBan.getString("Grund");
-                Date date = selectedBan.getDate("Datum");
-
-                LocalDateTime datum = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
-                player.sendMessage(MiniMessage.miniMessage().deserialize(
-                        "========== " + BanPlugin.prefixMiniMessage + " ==========" +
-                                "<newline> Ban Nummer: " +logIndex +
-                                "<newline> Ban:" +
-                                "<newline> Grund: " + grund +
-                                "<newline> Von: " + fromplayer +
-                                "<newline>Datum: " + datum.format(formatter)
-                ));
-            } else {
-                player.sendMessage(Component.text("Ungültiger Ban-Index."));
-            }
-        } else {
-            player.sendMessage(Component.text("Kein Eintrag für diesen Spieler gefunden."));
-        }
-    }
-
-    private static String ConfigMessages(String message, String playerName) {
-        if (message.contains("%logssize%") || message.contains("%targetPlayer%") || message.contains("%points%") || message.contains("%fromplayer%")) {
-            return message.replace("%spieler%", playerName);
-        }
-        return message;
     }
 }
