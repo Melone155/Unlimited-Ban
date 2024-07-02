@@ -21,7 +21,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class BanSQL {
 
-    private static MongoCollection<Document> collection;
+    public static MongoCollection<Document> collection;
     public static MongoClient mongoClient;
     private static String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort + "/?authMechanism=SCRAM-SHA-256";
 
@@ -90,7 +90,6 @@ public class BanSQL {
                         "<newline> Grund: " + reson +
                         "<newline> Bis zum " + datumentbann +
                         "<newline> Sollte es ihr ein mis verstehnis geben ehe auf fuchscraft.de/entbannung"));
-
             }
         } else {
             collection.deleteOne(eq("_id", player.getUniqueId().toString()));

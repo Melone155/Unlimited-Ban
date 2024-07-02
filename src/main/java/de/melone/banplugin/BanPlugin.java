@@ -296,42 +296,42 @@ public class BanPlugin {
 
 
             // 1
-            reson1 = (String) ban1.get("Reson");
+            reson1 = (String) ban1.get("Reason");
             time1 = String.valueOf(ban1.get("time"));
             type1 = (String) ban1.get("type");
 
             // 2
-            reson2 = (String) ban2.get("Reson");
+            reson2 = (String) ban2.get("Reason");
             time2 = String.valueOf(ban2.get("time"));
             type2 = (String) ban2.get("type");
 
             // 3
-            reson3 = (String) ban3.get("Reson");
+            reson3 = (String) ban3.get("Reason");
             time3 = String.valueOf(ban3.get("time"));
             type3 = (String) ban3.get("type");
 
             // 4
-            reson4 = (String) ban4.get("Reson");
+            reson4 = (String) ban4.get("Reason");
             time4 = String.valueOf(ban4.get("time"));
             type4 = (String) ban4.get("type");
 
             // 5
-            reson5 = (String) ban5.get("Reson");
+            reson5 = (String) ban5.get("Reason");
             time5 = String.valueOf(ban5.get("time"));
             type5 = (String) ban5.get("type");
 
             // 6
-            reson6 = (String) ban6.get("Reson");
+            reson6 = (String) ban6.get("Reason");
             time6 = String.valueOf(ban6.get("time"));
             type6 = (String) ban6.get("type");
 
             // 7
-            reson7 = (String) ban7.get("Reson");
+            reson7 = (String) ban7.get("Reason");
             time7 = String.valueOf(ban7.get("time"));
             type7 = (String) ban7.get("type");
 
             // 8
-            reson8 = (String) ban8.get("Reson");
+            reson8 = (String) ban8.get("Reason");
             time8 = String.valueOf(ban8.get("time"));
             type8 = (String) ban8.get("type");
 

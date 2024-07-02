@@ -144,13 +144,13 @@ public class CMD_ban implements SimpleCommand {
         BanSQL.CreatePlayerBan(targetPlayer, timenow, reson, timeinmin);
         BanlogSQL.CreatePlayerBan(targetPlayer, player, reson, timenow);
         PlayerKick(targetPlayer);
-        player.sendMessage(Component.text(ConfigMessages(BanPlugin.ReturnBan)));
+        player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.ReturnBan)));
     }
 
     private void ChatBanPlayer(Player targetPlayer, Player player,LocalDateTime timenow, String reson, int dauerinTage){
         BanSQL.CreatePlayerBan(targetPlayer, timenow, reson, dauerinTage);
         BanlogSQL.CreatePlayerBan(targetPlayer, player, reson, timenow);
-        player.sendMessage(Component.text(ConfigMessages(BanPlugin.ReturnChatban)));
+        player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.ReturnChatban)));
     }
 
     private static String ConfigMessages(String message) {
