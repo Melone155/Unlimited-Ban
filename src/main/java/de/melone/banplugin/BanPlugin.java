@@ -8,6 +8,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import de.melone.banplugin.Listener.JoinEvent;
+import de.melone.banplugin.Listener.PlayerChat;
 import de.melone.banplugin.cmd.CMD_ban;
 import de.melone.banplugin.cmd.CMD_banlog;
 import de.melone.banplugin.cmd.CMD_unban;
@@ -114,6 +115,7 @@ public class BanPlugin {
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         server.getEventManager().register(this, new JoinEvent());
+        server.getEventManager().register(this, new PlayerChat());
 
         CommandManager commandManager = server.getCommandManager();
         commandManager.register("ban", new CMD_ban(server));
