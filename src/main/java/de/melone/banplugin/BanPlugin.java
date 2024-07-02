@@ -13,16 +13,15 @@ import de.melone.banplugin.cmd.CMD_banlog;
 import de.melone.banplugin.cmd.CMD_unban;
 import de.melone.banplugin.ulti.BanSQL;
 import de.melone.banplugin.ulti.BanlogSQL;
+import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Plugin(
@@ -96,7 +95,7 @@ public class BanPlugin {
     private final Path dataDirectory;
 
     @Inject
-    public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager, @DataDirectory Path dataDirectory) {
+    public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager, @DataDirectory Path dataDirectory) throws FileNotFoundException {
         this.server = server;
         this.logger = logger;
         this.commandManager = commandManager;
@@ -105,6 +104,8 @@ public class BanPlugin {
         createConfig();
         readBanConfig("plugins/Bansystem/MongoDB.yml");
         readSettingsConfig("plugins/Bansystem/Ban.yml");
+
+        readMessagesConfig("plugins/Bansystem/Messages.yml");
 
         BanSQL.ConnectionBan();
         BanlogSQL.ConnectionBan();
@@ -125,6 +126,7 @@ public class BanPlugin {
         File file = new File("plugins/Bansystem/MongoDB.yml");
         File banfile = new File("plugins/Bansystem/Ban.yml");
         File messagesfile = new File("plugins/Bansystem/Messages.yml");
+
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -160,42 +162,42 @@ public class BanPlugin {
                 banfile.createNewFile();
                 try (FileWriter writer = new FileWriter(banfile)) {
                     writer.write(
-                            "# All ban times are given in hours \n" +
-                            "# Ban type is Chat and Server \n" +
-                            "\n" +
-                            "Bans: \n" +
-                            "  1:\n" +
-                            "    Reson: Hacking" +
-                            "    time: 1 \n" +
-                            "    type: Server \n" +
-                            "  2:\n" +
-                            "    Reson: AD" +
-                            "    time: 1 \n" +
-                            "    type: Chat \n" +
-                            "  3:\n" +
-                            "    Reson: Spam" +
-                            "    time: 1 \n" +
-                            "    type: Chat \n" +
-                            "  4:\n" +
-                            "    Reson: Insult" +
-                            "    time: 1 \n" +
-                            "    type: Chat \n" +
-                            "  5:\n" +
-                            "    Reson: Bugusing\n" +
-                            "    time: 1 \n" +
-                            "    type: Server \n" +
-                            "  6:\n" +
-                            "    Reson: Skin\n" +
-                            "    time: 1 \n" +
-                            "    type: Server \n" +
-                            "  7:\n" +
-                            "    Reson: Hatespeech\n" +
-                            "    time: 1 \n" +
-                            "    type: Chat \n" +
-                            "  8:\n" +
-                            "    Reson: Illegal buildings\n" +
-                            "    time: 1 \n" +
-                            "    type: Server \n"
+                            "# All ban times are given in hours\n" +
+                                    "# Ban type is Chat and Server\n" +
+                                    "\n" +
+                                    "Bans:\n" +
+                                    "  1:\n" +
+                                    "    Reason: Hacking\n" +
+                                    "    time: 1 \n" +
+                                    "    type: Server\n" +
+                                    "  2:\n" +
+                                    "    Reason: AD\n" +
+                                    "    time: 1\n" +
+                                    "    type: Chat\n" +
+                                    "  3:\n" +
+                                    "    Reason: Spam\n" +
+                                    "    time: 1\n" +
+                                    "    type: Chat\n" +
+                                    "  4:\n" +
+                                    "    Reason: Insult\n" +
+                                    "    time: 1\n" +
+                                    "    type: Chat\n" +
+                                    "  5:\n" +
+                                    "    Reason: Bugusing\n" +
+                                    "    time: 1\n" +
+                                    "    type: Server\n" +
+                                    "  6:\n" +
+                                    "    Reason: Skin\n" +
+                                    "    time: 1\n" +
+                                    "    type: Server\n" +
+                                    "  7:\n" +
+                                    "    Reason: Hatespeech\n" +
+                                    "    time: 1\n" +
+                                    "    type: Chat\n" +
+                                    "  8:\n" +
+                                    "    Reason: Illegal buildings\n" +
+                                    "    time: 1\n" +
+                                    "    type: Server\n"
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -207,36 +209,36 @@ public class BanPlugin {
 
         if (!messagesfile.exists()) {
             try {
-                banfile.createNewFile();
-                try (FileWriter writer = new FileWriter(banfile)) {
-                    writer.write("" +
+                messagesfile.createNewFile();
+                try (FileWriter writer = new FileWriter(messagesfile)) {
+                    writer.write(
                             "# Alle This Messages Support MIniMessages \n" +
                             "# https://docs.advntr.dev/index.html" +
                             "\n" +
-                            "Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray> \n" +
+                            "Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray> \n\n" +
 
-                            "KickMessage: %prefix% <newline> You have been warned/banned please Join New for more info \n" +
+                            "KickMessage: \"%prefix% <newline> You have been warned/banned please Join New for more info\" \n \n" +
 
-                            "ReturnBan: %prefix% Du hast den Spieler %targetPlayer% vom Server gebannt wegen %reson% \n" +
+                            "ReturnBan: \"%prefix% Du hast den Spieler %targetPlayer% vom Server gebannt wegen %reson%\" \n \n" +
 
-                            "ReturnChatban: %prefix% Du hast den Spieler %targetPlayer% auf dem Chat gebannt wegen %reson% \n" +
+                            "ReturnChatban: \"%prefix% Du hast den Spieler %targetPlayer% auf dem Chat gebannt wegen %reson%\" \n \n" +
 
-                            "Banlog1: ========== %prefix% ========== " +
+                            "Banlog1: \"========== %prefix% ========== " +
                             "<newline>Punkte: %points% \n" +
                             "<newline>Anzahl an Bans: %logssize% \n" +
                             "<newline>Letzter Ban: \n" +
                             "<newline>Grund: %grund% \n" +
                             "<newline>Von: %fromplayer% \n" +
-                            "<newline>Datum: %date%" +
+                            "<newline>Datum: %date%\" \n \n" +
 
-                            "Banlog2: ========== %prefix% ==========\n" +
+                            "Banlog2: \"========== %prefix% ==========\n" +
                             "<newline>Ban Nummer: %logIndex% \n" +
                             "<newline>Ban: \n" +
                             "<newline>Grund: %grund% \n" +
                             "<newline>Von: %fromplayer% \n" +
-                            "<newline>Datum: %date%" +
+                            "<newline>Datum: %date%\" \n \n" +
 
-                            "NotFound: Kein Eintrag für dieen Spieler gefunden."
+                            "NotFound: \"Kein Eintrag für dieen Spieler gefunden.\""
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -283,53 +285,54 @@ public class BanPlugin {
 
             Map<String, Object> bans = (Map<String, Object>) data.get("Bans");
 
-            Map<String, Object> ban1 = (Map<String, Object>) bans.get("1");
-            Map<String, Object> ban2 = (Map<String, Object>) bans.get("2");
-            Map<String, Object> ban3 = (Map<String, Object>) bans.get("3");
-            Map<String, Object> ban4 = (Map<String, Object>) bans.get("4");
-            Map<String, Object> ban5 = (Map<String, Object>) bans.get("5");
-            Map<String, Object> ban6 = (Map<String, Object>) bans.get("6");
-            Map<String, Object> ban7 = (Map<String, Object>) bans.get("7");
-            Map<String, Object> ban8 = (Map<String, Object>) bans.get("8");
+            Map<String, Object> ban1 = (Map<String, Object>) bans.get(1);
+            Map<String, Object> ban2 = (Map<String, Object>) bans.get(2);
+            Map<String, Object> ban3 = (Map<String, Object>) bans.get(3);
+            Map<String, Object> ban4 = (Map<String, Object>) bans.get(4);
+            Map<String, Object> ban5 = (Map<String, Object>) bans.get(5);
+            Map<String, Object> ban6 = (Map<String, Object>) bans.get(6);
+            Map<String, Object> ban7 = (Map<String, Object>) bans.get(7);
+            Map<String, Object> ban8 = (Map<String, Object>) bans.get(8);
+
 
             // 1
             reson1 = (String) ban1.get("Reson");
-            time1 = (String) ban1.get("time");
+            time1 = String.valueOf(ban1.get("time"));
             type1 = (String) ban1.get("type");
 
             // 2
             reson2 = (String) ban2.get("Reson");
-            time2 = (String) ban2.get("time");
+            time2 = String.valueOf(ban2.get("time"));
             type2 = (String) ban2.get("type");
 
             // 3
             reson3 = (String) ban3.get("Reson");
-            time3 = (String) ban3.get("time");
+            time3 = String.valueOf(ban3.get("time"));
             type3 = (String) ban3.get("type");
 
             // 4
             reson4 = (String) ban4.get("Reson");
-            time4 = (String) ban4.get("time");
+            time4 = String.valueOf(ban4.get("time"));
             type4 = (String) ban4.get("type");
 
             // 5
             reson5 = (String) ban5.get("Reson");
-            time5 = (String) ban5.get("time");
+            time5 = String.valueOf(ban5.get("time"));
             type5 = (String) ban5.get("type");
 
             // 6
             reson6 = (String) ban6.get("Reson");
-            time6 = (String) ban6.get("time");
+            time6 = String.valueOf(ban6.get("time"));
             type6 = (String) ban6.get("type");
 
             // 7
             reson7 = (String) ban7.get("Reson");
-            time7 = (String) ban7.get("time");
+            time7 = String.valueOf(ban7.get("time"));
             type7 = (String) ban7.get("type");
 
             // 8
             reson8 = (String) ban8.get("Reson");
-            time8 = (String) ban8.get("time");
+            time8 = String.valueOf(ban8.get("time"));
             type8 = (String) ban8.get("type");
 
         } catch (Exception e) {
