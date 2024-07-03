@@ -11,6 +11,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class CMD_ban implements SimpleCommand {
@@ -42,7 +43,6 @@ public class CMD_ban implements SimpleCommand {
                         LocalDateTime timenow = LocalDateTime.now();
 
                         if (argument.equals("1")) {
-                            reson = BanPlugin.reson1;
                             if (BanPlugin.type1 == "Server"){
                                 BanPlayer(targetPlayer,player, timenow, BanPlugin.reson1, Integer.valueOf(BanPlugin.time1));
                             } else {
@@ -50,7 +50,6 @@ public class CMD_ban implements SimpleCommand {
                             }
 
                         } else  if (argument.equals("2")) {
-                            reson = BanPlugin.reson2;
                             if (BanPlugin.type2 == "Server"){
                                 BanPlayer(targetPlayer,player, timenow, BanPlugin.reson2, Integer.valueOf(BanPlugin.time2));
                             } else {
@@ -58,7 +57,6 @@ public class CMD_ban implements SimpleCommand {
                             }
 
                         } else  if (argument.equals("3")) {
-                            reson = BanPlugin.reson3;
                             if (BanPlugin.type3 == "Server"){
                                 BanPlayer(targetPlayer,player, timenow, BanPlugin.reson3, Integer.valueOf(BanPlugin.time3));
                             } else {
@@ -66,7 +64,6 @@ public class CMD_ban implements SimpleCommand {
                             }
 
                         } else  if (argument.equals("4")) {
-                            reson = BanPlugin.reson4;
                             if (BanPlugin.type4 == "Server"){
                                 BanPlayer(targetPlayer,player, timenow, BanPlugin.reson4, Integer.valueOf(BanPlugin.time4));
                             } else {
@@ -74,7 +71,6 @@ public class CMD_ban implements SimpleCommand {
                             }
 
                         } else  if (argument.equals("5")) {
-                            reson = BanPlugin.reson5;
                             if (BanPlugin.type5 == "Server"){
                                 BanPlayer(targetPlayer,player, timenow, BanPlugin.reson5, Integer.valueOf(BanPlugin.time5));
                             } else {
@@ -82,7 +78,6 @@ public class CMD_ban implements SimpleCommand {
                             }
 
                         } else  if (argument.equals("6")) {
-                            reson = BanPlugin.reson6;
                             if (BanPlugin.type6 == "Server"){
                                 BanPlayer(targetPlayer,player, timenow, BanPlugin.reson6, Integer.valueOf(BanPlugin.time6));
                             } else {
@@ -90,7 +85,6 @@ public class CMD_ban implements SimpleCommand {
                             }
 
                         } else  if (argument.equals("7")) {
-                            reson = BanPlugin.reson7;
                             if (BanPlugin.type7 == "Server"){
                                 BanPlayer(targetPlayer,player, timenow, BanPlugin.reson7, Integer.valueOf(BanPlugin.time7));
                             } else {
@@ -98,7 +92,6 @@ public class CMD_ban implements SimpleCommand {
                             }
 
                         } else  if (argument.equals("8")) {
-                            reson = BanPlugin.reson8;
                             if (BanPlugin.type8 == "Server"){
                                 BanPlayer(targetPlayer,player, timenow, BanPlugin.reson8, Integer.valueOf(BanPlugin.time8));
                             } else {
@@ -125,23 +118,22 @@ public class CMD_ban implements SimpleCommand {
                     } if (argument.equals("help")){
                         player.sendMessage(MiniMessage.miniMessage().deserialize("========== " + BanPlugin.prefixMiniMessage + " ==========" +
                                 "<newline> /ban <Player> 1,2,3..." +
-                                "<newline /ban <Player> <reson> <time in Hours>" +
-                                "<newline> /unban <Player>" +
-                                "<newline> /"));
+                                "<newline /ban <Player> <time in Hours> <reson>" +
+                                "<newline> /unban <Player>"));
                     } else {
                         player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
                     }
                 } if (invocation.arguments().length == 3){
                     String playerName = args[0];
-                    String argument = args[1];
-                    String bantime = args[2];
+                    String message = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+                    String bantime = args[1];
 
                 Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
                 if (optionalPlayer.isPresent()) {
                     targetPlayer = optionalPlayer.get();
                     LocalDateTime timenow = LocalDateTime.now();
 
-                    BanPlayer(targetPlayer,player, timenow, argument, Integer.valueOf(bantime));
+                    BanPlayer(targetPlayer,player, timenow, message, Integer.valueOf(bantime));
                 }
             } else {
                     player.sendMessage(Component.text("/ban <Player> 1,2,3..."));

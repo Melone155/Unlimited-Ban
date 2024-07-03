@@ -95,6 +95,7 @@ public class BanPlugin {
     public static String Banlog1;
     public static String Banlog2;
     public static String NotFound;
+    public static String BanHelp;
 
     @DataDirectory
     private final Path dataDirectory;
@@ -109,7 +110,6 @@ public class BanPlugin {
         createConfig();
         readBanConfig("plugins/Bansystem/MongoDB.yml");
         readSettingsConfig("plugins/Bansystem/Ban.yml");
-
         readMessagesConfig("plugins/Bansystem/Messages.yml");
 
         BanSQL.ConnectionBan();
@@ -248,7 +248,12 @@ public class BanPlugin {
                             "<newline>Von: %fromplayer% \n" +
                             "<newline>Datum: %date%\" \n \n" +
 
-                            "NotFound: \"Kein Eintrag für dieen Spieler gefunden.\""
+                            "NotFound: \"Kein Eintrag für dieen Spieler gefunden.\"" +
+
+                            "BanHelp: \"========== " + BanPlugin.prefixMiniMessage + " ==========" +
+                            "<newline> /ban <Player> 1,2,3..." +
+                            "<newline /ban <Player> <time in Hours> <reson>" +
+                            "<newline> /unban <Player>\""
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -371,6 +376,7 @@ public class BanPlugin {
             Banlog1 = (String) data.get("Banlog1");
             Banlog2 = (String) data.get("Banlog2");
             NotFound = (String) data.get("NotFound");
+            BanHelp = (String) data.get("BanHelp");
 
         } catch (Exception e) {
             e.printStackTrace();
