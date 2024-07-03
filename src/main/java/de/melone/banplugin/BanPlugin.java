@@ -84,6 +84,10 @@ public class BanPlugin {
     public static String time8;
     public static String type8;
 
+    public static String MaxPoins;
+    public static String Bantime;
+    public static String MaxPoinsReason;
+
     public static String prefixMiniMessage;
     public static String KickMessage;
     public static String ReturnBan;
@@ -199,7 +203,11 @@ public class BanPlugin {
                                     "  8:\n" +
                                     "    Reason: Illegal buildings\n" +
                                     "    time: 1\n" +
-                                    "    type: Server\n"
+                                    "    type: Server\n" +
+                                    "  Poins:\n" +
+                                    "    Max Poins: 1\n" +
+                                    "    Bantime: 1\n" +
+                                    "    BanReason: Maximale Anzahl an Verfahrnungen"
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -295,7 +303,7 @@ public class BanPlugin {
             Map<String, Object> ban6 = (Map<String, Object>) bans.get(6);
             Map<String, Object> ban7 = (Map<String, Object>) bans.get(7);
             Map<String, Object> ban8 = (Map<String, Object>) bans.get(8);
-
+            Map<String, Object> poins = (Map<String, Object>) bans.get("Poins");
 
             // 1
             reson1 = (String) ban1.get("Reason");
@@ -336,6 +344,11 @@ public class BanPlugin {
             reson8 = (String) ban8.get("Reason");
             time8 = String.valueOf(ban8.get("time"));
             type8 = (String) ban8.get("type");
+
+            //Poins
+            MaxPoins = String.valueOf(poins.get("Max Poins"));
+            Bantime = String.valueOf(poins.get("Bantime"));
+            MaxPoinsReason = (String) poins.get("BanReason");
 
         } catch (Exception e) {
             e.printStackTrace();

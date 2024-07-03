@@ -13,9 +13,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bson.Document;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -107,6 +105,11 @@ public class BanSQL {
     public static void Playerunban(Player targetPlayer, Player player) {
         collection.deleteOne(eq("_id", targetPlayer.getUniqueId().toString()));
         player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "Du hast den Spieler " + targetPlayer.getGameProfile().getName() + "Entbannt"));
+    }
+
+    public static String GetPoints(Player player) {
+        Document doc = collection.find(eq("_id", player.getUniqueId().toString())).first();
+         return doc.getString("Punkte");
     }
 }
 

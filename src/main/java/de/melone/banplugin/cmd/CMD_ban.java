@@ -141,7 +141,11 @@ public class CMD_ban implements SimpleCommand {
     }
 
     private void BanPlayer(Player targetPlayer, Player player,LocalDateTime timenow, String reson, int timeinmin){
-        BanSQL.CreatePlayerBan(targetPlayer, timenow, reson, timeinmin);
+        if (Integer.valueOf(BanSQL.GetPoints(player)) == (Integer.valueOf(BanPlugin.MaxPoins) -1)) {
+            BanSQL.CreatePlayerBan(targetPlayer, timenow, BanPlugin.MaxPoinsReason, Integer.valueOf(BanPlugin.Bantime));
+        } else {
+            BanSQL.CreatePlayerBan(targetPlayer, timenow, reson, timeinmin);
+        }
         BanlogSQL.CreatePlayerBan(targetPlayer, player, reson, timenow);
         PlayerKick(targetPlayer);
         player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.ReturnBan)));
