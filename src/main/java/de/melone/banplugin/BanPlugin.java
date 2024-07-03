@@ -223,8 +223,8 @@ public class BanPlugin {
                 try (FileWriter writer = new FileWriter(messagesfile)) {
                     writer.write(
                             "# Alle This Messages Support MIniMessages \n" +
-                            "# https://docs.advntr.dev/index.html" +
-                            "\n" +
+                            "# https://docs.advntr.dev/index.html \n \n" +
+
                             "Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray> \n\n" +
 
                             "KickMessage: \"%prefix% <newline> You have been warned/banned please Join New for more info\" \n \n" +
@@ -248,7 +248,7 @@ public class BanPlugin {
                             "<newline>Von: %fromplayer% \n" +
                             "<newline>Datum: %date%\" \n \n" +
 
-                            "NotFound: \"Kein Eintrag für dieen Spieler gefunden.\"" +
+                            "NotFound: \"Kein Eintrag für dieen Spieler gefunden.\"\n" +
 
                             "BanHelp: \"========== " + BanPlugin.prefixMiniMessage + " ==========" +
                             "<newline> /ban <Player> 1,2,3..." +
