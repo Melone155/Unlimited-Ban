@@ -31,6 +31,7 @@ public class CMD_ban implements SimpleCommand {
 
         if (source instanceof Player) {
             player = (Player) source;
+            // /ban Melone145 lalala 12
                 if (invocation.arguments().length == 2) {
                     String playerName = args[0];
                     String argument = args[1];
@@ -130,7 +131,19 @@ public class CMD_ban implements SimpleCommand {
                     } else {
                         player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
                     }
-                } else {
+                } if (invocation.arguments().length == 3){
+                    String playerName = args[0];
+                    String argument = args[1];
+                    String bantime = args[2];
+
+                Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
+                if (optionalPlayer.isPresent()) {
+                    targetPlayer = optionalPlayer.get();
+                    LocalDateTime timenow = LocalDateTime.now();
+
+                    BanPlayer(targetPlayer,player, timenow, argument, Integer.valueOf(bantime));
+                }
+            } else {
                     player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
                 }
         }
