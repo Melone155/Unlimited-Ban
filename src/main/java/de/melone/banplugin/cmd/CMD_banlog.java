@@ -63,15 +63,15 @@ public class CMD_banlog implements SimpleCommand {
         Document playerDoc = BanlogSQL.collection.find(query).first();
 
         if (playerDoc != null) {
-            int points = playerDoc.getInteger("Punkte");
+            int points = playerDoc.getInteger("Points");
             List<Document> logs = playerDoc.getList("Log", Document.class);
 
             if (logIndex > 0 && logIndex <= logs.size()) {
                 Document selectedBan = logs.get(logIndex - 1);
 
-                fromplayer = selectedBan.getString("Von");
-                grund = selectedBan.getString("Grund");
-                Date date = selectedBan.getDate("Datum");
+                fromplayer = selectedBan.getString("From");
+                grund = selectedBan.getString("Reason");
+                Date date = selectedBan.getDate("Date");
 
                 formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
@@ -91,13 +91,13 @@ public class CMD_banlog implements SimpleCommand {
         Document playerDoc = BanlogSQL.collection.find(query).first();
 
         if (playerDoc != null) {
-            int points = playerDoc.getInteger("Punkte");
+            int points = playerDoc.getInteger("Points");
             List<Document> logs = playerDoc.getList("Log", Document.class);
             Document lastBan = logs.get(logs.size() - 1);
 
-            fromplayer = lastBan.getString("Von");
-            grund = lastBan.getString("Grund");
-            Date date = lastBan.getDate("Datum");
+            fromplayer = lastBan.getString("From");
+            grund = lastBan.getString("Reason");
+            Date date = lastBan.getDate("Date");
 
             LocalDateTime datum = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");

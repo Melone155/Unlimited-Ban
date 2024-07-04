@@ -19,13 +19,16 @@ public class JoinEvent {
     @Subscribe
     public void onPlayerJoin(PlayerChooseInitialServerEvent event) {
         Player player = event.getPlayer();
-        if (BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient) == true && BanSQL.isMongoDBConnected(BanSQL.mongoClient) == true){
+        player.sendMessage(MiniMessage.miniMessage().deserialize("" + BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient)));
+        player.sendMessage(MiniMessage.miniMessage().deserialize("" + BanSQL.isMongoDBConnected(BanSQL.mongoClient)));
+
+        if (BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient) == true || BanSQL.isMongoDBConnected(BanSQL.mongoClient) == true){
 
             Document doc = BanSQL.collection.find(Filters.eq("_id", player.getUniqueId().toString())).first();
             if (!(doc == null)){
 
                 String date = doc.getString("Time");
-                int dauer = doc.getInteger("Days");
+                int dauer = doc.getInteger("Hours");
 
                 LocalDateTime now = LocalDateTime.now();
                 LocalDateTime time = now.minusHours(dauer);
@@ -102,6 +105,7 @@ public class JoinEvent {
                 }
             }
         } else {
+            player.sendMessage(MiniMessage.miniMessage().deserialize("" + BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient)));
             player.disconnect(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "<newlien> leider ist uns ein Fehler unterlaufen <newline> Bitte informieren sie das Server-Team, um diesen Fehler zu beheben."));
         }
     }

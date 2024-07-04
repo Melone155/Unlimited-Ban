@@ -52,16 +52,16 @@ public class BanlogSQL {
                 Document existingDoc = collection.find(query).first();
 
                 if (existingDoc == null) {
-                    Document logEntry = new Document("Von", player.getGameProfile().getName().toString())
-                            .append("Grund", reason)
-                            .append("Datum", localDateTime);
+                    Document logEntry = new Document("From", player.getGameProfile().getName().toString())
+                            .append("Reason", reason)
+                            .append("Date", localDateTime);
 
                     Document newDocument = new Document("_id", target.getUniqueId().toString())
-                            .append("Punkte", 1)
+                            .append("Points", 1)
                             .append("Log", Collections.singletonList(logEntry));
                     collection.insertOne(newDocument);
                 } else {
-                    Integer punkte = existingDoc.getInteger("Punkte");
+                    Integer punkte = existingDoc.getInteger("Points");
                     int neuePunkte = (punkte != null) ? punkte + 1 : 1; // Fallback to 1 if "Punkte" is null
 
                     List<Document> logs = existingDoc.getList("Log", Document.class);
@@ -69,9 +69,9 @@ public class BanlogSQL {
                         logs = new ArrayList<>();
                     }
 
-                    Document logEntry = new Document("Von", player.getGameProfile().getName().toString())
-                            .append("Grund", reason)
-                            .append("Datum", localDateTime);
+                    Document logEntry = new Document("From", player.getGameProfile().getName().toString())
+                            .append("Reason", reason)
+                            .append("Date", localDateTime);
 
                     logs.add(logEntry);
                     collection.updateOne(query, new Document("$set", new Document("Punkte", neuePunkte)));

@@ -61,7 +61,7 @@ public class BanSQL {
                         .append("name", player.getGameProfile().getName())
                         .append("reson", reson)
                         .append("Time", localDateTime.toString())
-                        .append("Days", bandauer)
+                        .append("Hours", bandauer)
                         .append("Timeforplayer", formatDateTime));
             }
         }
@@ -74,7 +74,7 @@ public class BanSQL {
             String date = doc.getString("Time");
             String reson = doc.getString("reson");
             String datumentbann = doc.getString("Timeforplayer");
-            int dauer = doc.getInteger("Days");
+            int dauer = doc.getInteger("Hours");
 
 
             LocalDateTime now = LocalDateTime.now();
