@@ -100,7 +100,7 @@ public class CMD_ban implements SimpleCommand {
                         }
 
                     } else {
-                        player.sendMessage(Component.text("Spieler nicht gefunden."));
+                        player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.PlayerNotFound));
                     }
                 } else if (invocation.arguments().length == 1) {
                     String argument = args[0];

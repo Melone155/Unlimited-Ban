@@ -79,10 +79,10 @@ public class CMD_banlog implements SimpleCommand {
 
                 player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Banlog2)));
             } else {
-                player.sendMessage(Component.text("Ungültiger Ban-Index."));
+                player.sendMessage(MiniMessage.miniMessage().deserialize("Invalid Ban-Index."));
             }
         } else {
-            player.sendMessage(Component.text("Kein Eintrag für diesen Spieler gefunden."));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.NotFound)));
         }
     }
 
@@ -104,7 +104,7 @@ public class CMD_banlog implements SimpleCommand {
 
             player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Banlog1)));
         } else {
-            player.sendMessage(Component.text("Kein Eintrag für dieen Spieler gefunden."));
+            player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Banlog1)));
         }
     }
 

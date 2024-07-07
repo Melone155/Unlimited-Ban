@@ -96,6 +96,8 @@ public class BanPlugin {
     public static String Banlog2;
     public static String NotFound;
     public static String BanHelp;
+    public static String PlayerNotFound;
+    public static String Playerunban;
 
     @DataDirectory
     private final Path dataDirectory;
@@ -229,31 +231,33 @@ public class BanPlugin {
 
                             "KickMessage: \"%prefix% <newline> You have been warned/banned please Join New for more info\" \n \n" +
 
-                            "ReturnBan: \"%prefix% Du hast den Spieler %targetPlayer% vom Server gebannt wegen %reson%\" \n \n" +
+                            "ReturnBan: \"%prefix%  You have the player %targetPlayer% banned from the server because of %reson%\" \n \n" +
 
-                            "ReturnChatban: \"%prefix% Du hast den Spieler %targetPlayer% auf dem Chat gebannt wegen %reson%\" \n \n" +
+                            "ReturnChatban: \"%prefix% You have the Spieler %targetPlayer% banned from the Chat because of %reson%\" \n \n" +
 
                             "Banlog1: \"========== %prefix% ========== " +
-                            "<newline>Punkte: %points% \n" +
-                            "<newline>Anzahl an Bans: %logssize% \n" +
-                            "<newline>Letzter Ban: \n" +
-                            "<newline>Grund: %grund% \n" +
-                            "<newline>Von: %fromplayer% \n" +
-                            "<newline>Datum: %date%\" \n \n" +
+                            "<newline>Points: %points% \n" +
+                            "<newline>Number of bans: %logssize% \n" +
+                            "<newline>last Ban: \n" +
+                            "<newline>Reason: %grund% \n" +
+                            "<newline>from: %fromplayer% \n" +
+                            "<newline>Date: %date%\" \n \n" +
 
                             "Banlog2: \"========== %prefix% ==========\n" +
                             "<newline>Ban Nummer: %logIndex% \n" +
                             "<newline>Ban: \n" +
-                            "<newline>Grund: %grund% \n" +
-                            "<newline>Von: %fromplayer% \n" +
-                            "<newline>Datum: %date%\" \n \n" +
-
-                            "NotFound: \"Kein Eintrag für dieen Spieler gefunden.\"\n" +
+                            "<newline>Reason: %grund% \n" +
+                            "<newline>from: %fromplayer% \n" +
+                            "<newline>Date: %date%\" \n \n" +
 
                             "BanHelp: \"========== " + BanPlugin.prefixMiniMessage + " ==========" +
                             "<newline> /ban <Player> 1,2,3..." +
                             "<newline /ban <Player> <time in Hours> <reson>" +
-                            "<newline> /unban <Player>\""
+                            "<newline> /unban <Player>\"" +
+
+                            "NotFoundPlayerData: \"No entry found for this player.\"\n" +
+                            "PlayerNotFound: \"Player Not Found\"" +
+                            "Playerunban: \"%prefix% You have unban The player %player%"
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -375,8 +379,10 @@ public class BanPlugin {
             ReturnChatban = (String) data.get("ReturnChatban");
             Banlog1 = (String) data.get("Banlog1");
             Banlog2 = (String) data.get("Banlog2");
-            NotFound = (String) data.get("NotFound");
+            NotFound = (String) data.get("NotFoundPlayerData");
             BanHelp = (String) data.get("BanHelp");
+            PlayerNotFound = (String) data.get("PlayerNotFound");
+            Playerunban = (String) data.get("Playerunban");
 
         } catch (Exception e) {
             e.printStackTrace();

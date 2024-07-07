@@ -45,7 +45,7 @@ public class BanlogSQL {
 
     public static void CreatePlayerBan(Player target, Player player, String reason, LocalDateTime localDateTime) {
         if (!isMongoDBConnected(mongoClient)) {
-            player.sendMessage(Component.text(BanPlugin.prefixMiniMessage + "Fehler: 425 Bitte Kontaktieren sie einen Admin"));
+            player.sendMessage(Component.text(BanPlugin.prefixMiniMessage + "Fehler: 425 Please contact an Admin"));
         } else {
             try {
                 Document query = new Document("_id", target.getUniqueId().toString());
