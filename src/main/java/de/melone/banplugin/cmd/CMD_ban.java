@@ -32,7 +32,8 @@ public class CMD_ban implements SimpleCommand {
 
         if (source instanceof Player) {
             player = (Player) source;
-            // /ban Melone145 lalala 12
+            if (player.hasPermission("Ban.ban")) {
+                // /ban Melone145 lalala 12
                 if (invocation.arguments().length == 2) {
                     String playerName = args[0];
                     String argument = args[1];
@@ -43,59 +44,59 @@ public class CMD_ban implements SimpleCommand {
                         LocalDateTime timenow = LocalDateTime.now();
 
                         if (argument.equals("1")) {
-                            if (BanPlugin.type1 == "Server"){
-                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson1, Integer.valueOf(BanPlugin.time1));
+                            if (BanPlugin.type1 == "Server") {
+                                BanPlayer(targetPlayer, player, timenow, BanPlugin.reson1, Integer.valueOf(BanPlugin.time1));
                             } else {
-                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson1, Integer.valueOf(BanPlugin.time1));
+                                ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson1, Integer.valueOf(BanPlugin.time1));
                             }
 
-                        } else  if (argument.equals("2")) {
-                            if (BanPlugin.type2 == "Server"){
-                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson2, Integer.valueOf(BanPlugin.time2));
+                        } else if (argument.equals("2")) {
+                            if (BanPlugin.type2 == "Server") {
+                                BanPlayer(targetPlayer, player, timenow, BanPlugin.reson2, Integer.valueOf(BanPlugin.time2));
                             } else {
-                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson2, Integer.valueOf(BanPlugin.time2));
+                                ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson2, Integer.valueOf(BanPlugin.time2));
                             }
 
-                        } else  if (argument.equals("3")) {
-                            if (BanPlugin.type3 == "Server"){
-                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson3, Integer.valueOf(BanPlugin.time3));
+                        } else if (argument.equals("3")) {
+                            if (BanPlugin.type3 == "Server") {
+                                BanPlayer(targetPlayer, player, timenow, BanPlugin.reson3, Integer.valueOf(BanPlugin.time3));
                             } else {
-                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson3, Integer.valueOf(BanPlugin.time3));
+                                ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson3, Integer.valueOf(BanPlugin.time3));
                             }
 
-                        } else  if (argument.equals("4")) {
-                            if (BanPlugin.type4 == "Server"){
-                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson4, Integer.valueOf(BanPlugin.time4));
+                        } else if (argument.equals("4")) {
+                            if (BanPlugin.type4 == "Server") {
+                                BanPlayer(targetPlayer, player, timenow, BanPlugin.reson4, Integer.valueOf(BanPlugin.time4));
                             } else {
-                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson4, Integer.valueOf(BanPlugin.time4));
+                                ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson4, Integer.valueOf(BanPlugin.time4));
                             }
 
-                        } else  if (argument.equals("5")) {
-                            if (BanPlugin.type5 == "Server"){
-                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson5, Integer.valueOf(BanPlugin.time5));
+                        } else if (argument.equals("5")) {
+                            if (BanPlugin.type5 == "Server") {
+                                BanPlayer(targetPlayer, player, timenow, BanPlugin.reson5, Integer.valueOf(BanPlugin.time5));
                             } else {
-                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson5, Integer.valueOf(BanPlugin.time5));
+                                ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson5, Integer.valueOf(BanPlugin.time5));
                             }
 
-                        } else  if (argument.equals("6")) {
-                            if (BanPlugin.type6 == "Server"){
-                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson6, Integer.valueOf(BanPlugin.time6));
+                        } else if (argument.equals("6")) {
+                            if (BanPlugin.type6 == "Server") {
+                                BanPlayer(targetPlayer, player, timenow, BanPlugin.reson6, Integer.valueOf(BanPlugin.time6));
                             } else {
-                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson6, Integer.valueOf(BanPlugin.time6));
+                                ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson6, Integer.valueOf(BanPlugin.time6));
                             }
 
-                        } else  if (argument.equals("7")) {
-                            if (BanPlugin.type7 == "Server"){
-                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson7, Integer.valueOf(BanPlugin.time7));
+                        } else if (argument.equals("7")) {
+                            if (BanPlugin.type7 == "Server") {
+                                BanPlayer(targetPlayer, player, timenow, BanPlugin.reson7, Integer.valueOf(BanPlugin.time7));
                             } else {
-                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson7, Integer.valueOf(BanPlugin.time7));
+                                ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson7, Integer.valueOf(BanPlugin.time7));
                             }
 
-                        } else  if (argument.equals("8")) {
-                            if (BanPlugin.type8 == "Server"){
-                                BanPlayer(targetPlayer,player, timenow, BanPlugin.reson8, Integer.valueOf(BanPlugin.time8));
+                        } else if (argument.equals("8")) {
+                            if (BanPlugin.type8 == "Server") {
+                                BanPlayer(targetPlayer, player, timenow, BanPlugin.reson8, Integer.valueOf(BanPlugin.time8));
                             } else {
-                                ChatBanPlayer(targetPlayer,player, timenow, BanPlugin.reson8, Integer.valueOf(BanPlugin.time8));
+                                ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson8, Integer.valueOf(BanPlugin.time8));
                             }
                         }
 
@@ -115,7 +116,8 @@ public class CMD_ban implements SimpleCommand {
                                 "<newline>7. " + BanPlugin.reson7 +
                                 "<newline>8. " + BanPlugin.reson8
                         ));
-                    } if (argument.equals("help")){
+                    }
+                    if (argument.equals("help")) {
                         player.sendMessage(MiniMessage.miniMessage().deserialize("========== " + BanPlugin.prefixMiniMessage + " ==========" +
                                 "<newline> /ban <Player> 1,2,3..." +
                                 "<newline /ban <Player> <time in Hours> <reson>" +
@@ -123,21 +125,29 @@ public class CMD_ban implements SimpleCommand {
                     } else {
                         player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
                     }
-                } if (invocation.arguments().length == 3){
-                    String playerName = args[0];
-                    String message = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
-                    String bantime = args[1];
-
-                Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
-                if (optionalPlayer.isPresent()) {
-                    targetPlayer = optionalPlayer.get();
-                    LocalDateTime timenow = LocalDateTime.now();
-
-                    BanPlayer(targetPlayer,player, timenow, message, Integer.valueOf(bantime));
                 }
-            } else {
+                if (invocation.arguments().length == 3) {
+                    if (player.hasPermission("Ban.BanAdmin")) {
+                        String playerName = args[0];
+                        String message = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+                        String bantime = args[1];
+
+                        Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
+                        if (optionalPlayer.isPresent()) {
+                            targetPlayer = optionalPlayer.get();
+                            LocalDateTime timenow = LocalDateTime.now();
+
+                            BanPlayer(targetPlayer, player, timenow, message, Integer.valueOf(bantime));
+                        }
+                    } else {
+                        player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.noperms)));
+                    }
+                } else {
                     player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
                 }
+            } else {
+                player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.noperms)));
+            }
         }
     }
 

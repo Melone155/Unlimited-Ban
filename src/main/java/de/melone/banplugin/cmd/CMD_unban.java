@@ -28,14 +28,18 @@ public class CMD_unban implements SimpleCommand {
         if (source instanceof Player) {
             player = (Player) source;
             if (invocation.arguments().length == 1) {
-                String playerName = args[0];
+                if (player.hasPermission("Ban.unban")){
+                    String playerName = args[0];
 
-                Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
-                if (optionalPlayer.isPresent()) {
-                    targetPlayer = optionalPlayer.get();
+                    Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
+                    if (optionalPlayer.isPresent()) {
+                        targetPlayer = optionalPlayer.get();
 
-                    BanSQL.Playerunban(targetPlayer, player);
-                    player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Playerunban)));
+                        BanSQL.Playerunban(targetPlayer, player);
+                        player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Playerunban)));
+                    } else {
+                        player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.noperms)));
+                    }
                 }
             }
         }
