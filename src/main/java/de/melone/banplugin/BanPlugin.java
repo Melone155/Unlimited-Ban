@@ -98,6 +98,7 @@ public class BanPlugin {
     public static String BanHelp;
     public static String PlayerNotFound;
     public static String Playerunban;
+    public static String ConnectionERROR;
 
     @DataDirectory
     private final Path dataDirectory;
@@ -257,7 +258,8 @@ public class BanPlugin {
 
                             "NotFoundPlayerData: \"No entry found for this player.\"\n" +
                             "PlayerNotFound: \"Player Not Found\"" +
-                            "Playerunban: \"%prefix% You have unban The player %player%"
+                            "Playerunban: \"%prefix% You have unban The player %player%" +
+                            "NOSQLConnectionERROR: \"%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established.\""
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -383,6 +385,7 @@ public class BanPlugin {
             BanHelp = (String) data.get("BanHelp");
             PlayerNotFound = (String) data.get("PlayerNotFound");
             Playerunban = (String) data.get("Playerunban");
+            ConnectionERROR = (String) data.get("NOSQLConnectionERROR");
 
         } catch (Exception e) {
             e.printStackTrace();

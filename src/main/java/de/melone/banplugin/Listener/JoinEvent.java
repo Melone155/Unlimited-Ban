@@ -22,7 +22,7 @@ public class JoinEvent {
         player.sendMessage(MiniMessage.miniMessage().deserialize("" + BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient)));
         player.sendMessage(MiniMessage.miniMessage().deserialize("" + BanSQL.isMongoDBConnected(BanSQL.mongoClient)));
 
-        if (BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient) == true || BanSQL.isMongoDBConnected(BanSQL.mongoClient) == true){
+        if (!BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient) || !BanSQL.isMongoDBConnected(BanSQL.mongoClient)){
 
             Document doc = BanSQL.collection.find(Filters.eq("_id", player.getUniqueId().toString())).first();
             if (!(doc == null)){
@@ -106,7 +106,14 @@ public class JoinEvent {
             }
         } else {
             player.sendMessage(MiniMessage.miniMessage().deserialize("" + BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient)));
-            player.disconnect(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "<newlien> leider ist uns ein Fehler unterlaufen <newline> Bitte informieren sie das Server-Team, um diesen Fehler zu beheben."));
+            player.disconnect(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.ConnectionERROR)));
         }
+    }
+
+    private static String ConfigMessages(String message) {
+        if (message.contains("%prefix%")) {
+            return message.replace("%prefix%", BanPlugin.prefixMiniMessage);
+        }
+        return message;
     }
 }
