@@ -11,6 +11,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bson.Document;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import static javax.management.Query.eq;
 
@@ -19,10 +20,8 @@ public class JoinEvent {
     @Subscribe
     public void onPlayerJoin(PlayerChooseInitialServerEvent event) {
         Player player = event.getPlayer();
-        player.sendMessage(MiniMessage.miniMessage().deserialize("" + BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient)));
-        player.sendMessage(MiniMessage.miniMessage().deserialize("" + BanSQL.isMongoDBConnected(BanSQL.mongoClient)));
 
-        if (!BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient) || !BanSQL.isMongoDBConnected(BanSQL.mongoClient)){
+        if (BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient) || BanSQL.isMongoDBConnected(BanSQL.mongoClient)){
 
             Document doc = BanSQL.collection.find(Filters.eq("_id", player.getUniqueId().toString())).first();
             if (!(doc == null)){
@@ -38,64 +37,68 @@ public class JoinEvent {
                 if (time.isBefore(playertime)) {
                     String reson = doc.getString("reson");
 
-                   if (reson == BanPlugin.reson1){
-                       if (BanPlugin.type1 == "Server"){
+                    player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.type1));
+
+                   if (reson.equals(BanPlugin.reson1)){
+                       player.sendMessage(MiniMessage.miniMessage().deserialize("test1"));
+                       if (BanPlugin.type1.equals("Server")){
+                           player.sendMessage(MiniMessage.miniMessage().deserialize("test2"));
                            BanSQL.GetPlayerBan(player);
                        } else {
                            BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
                            BanSQL.GetPlayerChatBan(player);
                        }
 
-                   } else if (reson == BanPlugin.reson2){
-                       if (BanPlugin.type2 == "Server"){
+                   } else if (reson.equals(BanPlugin.reson2)){
+                       if (BanPlugin.type2.equals("Server")){
                            BanSQL.GetPlayerBan(player);
                        } else {
                            BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
                            BanSQL.GetPlayerChatBan(player);
                        }
 
-                   } else if (reson == BanPlugin.reson3){
-                       if (BanPlugin.type3 == "Server"){
+                   } else if (reson.equals(BanPlugin.reson3)){
+                       if (Objects.equals(BanPlugin.type3, "Server")){
                            BanSQL.GetPlayerBan(player);
                        } else {
                            BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
                            BanSQL.GetPlayerChatBan(player);
                        }
 
-                   } else if (reson == BanPlugin.reson4){
-                       if (BanPlugin.type4 == "Server"){
+                   } else if (reson.equals(BanPlugin.reson4)){
+                       if (Objects.equals(BanPlugin.type4, "Server")){
                            BanSQL.GetPlayerBan(player);
                        } else {
                            BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
                            BanSQL.GetPlayerChatBan(player);
                        }
 
-                   } else if (reson == BanPlugin.reson5){
-                       if (BanPlugin.type5 == "Server"){
+                   } else if (reson.equals(BanPlugin.reson5)){
+                       if (BanPlugin.type5.equals("Server")){
                            BanSQL.GetPlayerBan(player);
                        } else {
                            BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
                            BanSQL.GetPlayerChatBan(player);
                        }
 
-                   } else if (reson == BanPlugin.reson6){
-                       if (BanPlugin.type6 == "Server"){
+                   } else if (reson.equals(BanPlugin.reson6)){
+                       if (BanPlugin.type6.equals("Server")){
                            BanSQL.GetPlayerBan(player);
                        } else {
                            BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
                            BanSQL.GetPlayerChatBan(player);
                        }
 
-                   } else if (reson == BanPlugin.reson7){
-                       if (BanPlugin.type7 == "Server"){
+                   } else if (BanPlugin.reson7 == reson){
+                       if (BanPlugin.type7.equals("Server")){
                            BanSQL.GetPlayerBan(player);
                        } else {
                            BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
                            BanSQL.GetPlayerChatBan(player);
                        }
 
-                   } else if (reson == BanPlugin.reson8){
-                       if (BanPlugin.type8 == "Server"){
+                   } else if (reson.equals(BanPlugin.reson8)){
+                       if (BanPlugin.type8.equals("Server")){
                            BanSQL.GetPlayerBan(player);
                        } else {
                            BanPlugin.playerChatAllow.add(player.getUniqueId().toString());
@@ -105,7 +108,6 @@ public class JoinEvent {
                 }
             }
         } else {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("" + BanlogSQL.isMongoDBConnected(BanlogSQL.mongoClient)));
             player.disconnect(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.ConnectionERROR)));
         }
     }

@@ -37,23 +37,29 @@ public class CMD_banlog implements SimpleCommand {
 
         if (source instanceof Player) {
             player = (Player) source;
-            if (invocation.arguments().length == 1) {
-                String playerName = args[0];
 
-                Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
-                Player targetPlayer = optionalPlayer.get();
-                if (optionalPlayer.isPresent()) {
+            if (player.hasPermission("ban.banlog")) {
 
-                    GetPlayerBan(targetPlayer.getUniqueId().toString(), player);
+                if (invocation.arguments().length == 1) {
+                    String playerName = args[0];
+
+                    Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
+                    Player targetPlayer = optionalPlayer.get();
+                    if (optionalPlayer.isPresent()) {
+
+                        GetPlayerBan(targetPlayer.getUniqueId().toString(), player);
+                    }
+                } else if (invocation.arguments().length == 2) {
+                    String playerName = args[0];
+                    Integer count = Integer.valueOf(args[1]);
+
+                    Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
+                    Player targetPlayer = optionalPlayer.get();
+
+                    GetPlayerBanCount(targetPlayer.getUniqueId().toString(), player, count);
                 }
-            } else if (invocation.arguments().length == 2) {
-                String playerName = args[0];
-                Integer count = Integer.valueOf(args[1]);
-
-                Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
-                Player targetPlayer = optionalPlayer.get();
-
-                GetPlayerBanCount(targetPlayer.getUniqueId().toString(), player, count);
+            } else {
+                player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + " " + BanPlugin.noperms));
             }
         }
     }

@@ -33,7 +33,6 @@ public class CMD_ban implements SimpleCommand {
         if (source instanceof Player) {
             player = (Player) source;
             if (player.hasPermission("Ban.ban")) {
-                // /ban Melone145 lalala 12
                 if (invocation.arguments().length == 2) {
                     String playerName = args[0];
                     String argument = args[1];
@@ -125,25 +124,25 @@ public class CMD_ban implements SimpleCommand {
                     } else {
                         player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
                     }
-                }
-                if (invocation.arguments().length == 3) {
-                    if (player.hasPermission("Ban.BanAdmin")) {
-                        String playerName = args[0];
-                        String message = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
-                        String bantime = args[1];
+                    if (invocation.arguments().length == 3) {
+                        if (player.hasPermission("Ban.BanAdmin")) {
+                            String playerName = args[0];
+                            String message = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+                            String bantime = args[1];
 
-                        Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
-                        if (optionalPlayer.isPresent()) {
-                            targetPlayer = optionalPlayer.get();
-                            LocalDateTime timenow = LocalDateTime.now();
+                            Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
+                            if (optionalPlayer.isPresent()) {
+                                targetPlayer = optionalPlayer.get();
+                                LocalDateTime timenow = LocalDateTime.now();
 
-                            BanPlayer(targetPlayer, player, timenow, message, Integer.valueOf(bantime));
+                                BanPlayer(targetPlayer, player, timenow, message, Integer.valueOf(bantime));
+                            }
+                        } else {
+                            player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.noperms)));
                         }
                     } else {
-                        player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.noperms)));
+                        player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
                     }
-                } else {
-                    player.sendMessage(Component.text("/ban <Player> 1,2,3..."));
                 }
             } else {
                 player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.noperms)));
@@ -173,12 +172,14 @@ public class CMD_ban implements SimpleCommand {
     }
 
     private static String ConfigMessages(String message) {
-        if (message.contains("%spieler%") || message.contains("%targetPlayer%") || message.contains("%reson%") || message.contains("%prefix%")) {
-            return message.replace("%spieler%", player.getUsername())
-                    .replace("%targetPlayer%", targetPlayer.getUsername())
-                    .replace("%reson%", reson)
-                    .replace("%prefix%", BanPlugin.prefixMiniMessage);
-        }
-        return message;
+        String targetName = (targetPlayer != null) ? targetPlayer.getUsername() : "Unknown";
+        String playerName = (player != null) ? player.getUsername() : "Unknown";
+
+        return message.replace("%spieler%", playerName)
+                .replace("%targetPlayer%", targetName)
+                .replace("%reson%", (reson != null ? reson : "No reason provided"))
+                .replace("%prefix%", (BanPlugin.prefixMiniMessage != null ? BanPlugin.prefixMiniMessage : ""));
     }
+
+
 }

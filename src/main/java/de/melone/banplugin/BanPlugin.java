@@ -252,15 +252,15 @@ public class BanPlugin {
                             "<newline>from: %fromplayer% \n" +
                             "<newline>Date: %date%\" \n \n" +
 
-                            "BanHelp: \"========== " + BanPlugin.prefixMiniMessage + " ==========" +
+                            "BanHelp: \"========== %prefix% ==========" +
                             "<newline> /ban <Player> 1,2,3..." +
                             "<newline /ban <Player> <time in Hours> <reson>" +
-                            "<newline> /unban <Player>\"" +
+                            "<newline> /unban <Player>\n" +
 
                             "NotFoundPlayerData: \"No entry found for this player.\"\n" +
                             "PlayerNotFound: \"Player Not Found\"" +
-                            "Playerunban: \"%prefix% You have unban The player %player%" +
-                            "NOSQLConnectionERROR: \"%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established.\"" +
+                            "Playerunban: \"%prefix% You have unban The player %player% \n" +
+                            "NOSQLConnectionERROR: \"%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established.\"\n" +
                             "NoPermission: %prefix% You have no Permissions to use this Command"
                     );
                 } catch (IOException e) {

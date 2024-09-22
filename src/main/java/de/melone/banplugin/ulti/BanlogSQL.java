@@ -22,19 +22,20 @@ public class BanlogSQL {
 
     public static MongoCollection<Document> collection;
     public static MongoClient mongoClient;
-    private static String uri = "mongodb://" + BanPlugin.banlogUsername + ":" + BanPlugin.banlogPassword + "@" + BanPlugin.banlogHost + ":" + BanPlugin.banlogPort + "/?authMechanism=SCRAM-SHA-256";
+    private static String uri = "mongodb://" + BanPlugin.banlogUsername + ":" + BanPlugin.banlogPassword + "@" + BanPlugin.banlogHost + ":" + BanPlugin.banlogPort + "/Ban?authSource=Ban";
 
     public static void ConnectionBan() {
 
         mongoClient = MongoClients.create(uri);
         MongoDatabase database = mongoClient.getDatabase(BanPlugin.banlogDatabase);
         collection = database.getCollection(BanPlugin.banlogCollection);
-
     }
 
     public static boolean isMongoDBConnected(MongoClient mongoClient) {
         try {
             mongoClient.listDatabaseNames();
+
+            System.out.println("Hallo World");
 
             return true;
         } catch (MongoException e) {
