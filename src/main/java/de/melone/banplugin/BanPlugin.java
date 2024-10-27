@@ -17,8 +17,6 @@ public class BanPlugin {
 
 
     private final Logger logger;
-    private final ProxyServer server;
-    private final CommandManager commandManager;
 
     //NoSQL Ban
     public static String bansHost;
@@ -99,15 +97,9 @@ public class BanPlugin {
     public static String ConnectionERROR;
     public static String noperms;
 
-    @DataDirectory
-    private final Path dataDirectory;
-
     @Inject
     public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager, @DataDirectory Path dataDirectory) throws FileNotFoundException {
-        this.server = server;
         this.logger = logger;
-        this.commandManager = commandManager;
-        this.dataDirectory = dataDirectory;
 
         //Create Folder and All Files
         CreateFolder();
@@ -141,20 +133,22 @@ public class BanPlugin {
             try {
                 file.createNewFile();
                 try (FileWriter writer = new FileWriter(file)) {
-                    writer.write("Bans:\n" +
-                            "  host: localhost\n" +
-                            "  port: 27017\n" +
-                            "  database: mydatabase\n" +
-                            "  collection: myocllection\n" +
-                            "  username: myuser\n" +
-                            "  password: mypassword\n" +
-                            "Banlog:\n" +
-                            "  host: localhost\n" +
-                            "  port: 27017\n" +
-                            "  database: mydatabase\n" +
-                            "  collection: myocllection\n" +
-                            "  username: myuser\n" +
-                            "  password: mypassword\n");
+                    writer.write("""
+                            Bans:
+                              host: localhost
+                              port: 27017
+                              database: mydatabase
+                              collection: myocllection
+                              username: myuser
+                              password: mypassword
+                            Banlog:
+                              host: localhost
+                              port: 27017
+                              database: mydatabase
+                              collection: myocllection
+                              username: myuser
+                              password: mypassword
+                            """);
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
                 }
@@ -253,42 +247,42 @@ public class BanPlugin {
                 messagesfile.createNewFile();
                 try (FileWriter writer = new FileWriter(messagesfile)) {
                     writer.write(
-                            "# Alle This Messages Support MIniMessages \n" +
-                                    "# https://docs.advntr.dev/index.html \n \n" +
+                            """
+                                    # Alle This Messages Support MIniMessages
+                                    # https://docs.advntr.dev/index.html
+                                    
+                                    Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray>
 
-                                    "Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray> \n\n" +
-
-                                    "KickMessage: \"%prefix% <newline> You have been warned/banned please Join New for more info\" \n \n" +
-
-                                    "ReturnBan: \"%prefix%  You have the player %targetPlayer% banned from the server because of %reson%\" \n \n" +
-
-                                    "ReturnChatban: \"%prefix% You have the Spieler %targetPlayer% banned from the Chat because of %reson%\" \n \n" +
-
-                                    "Banlog1: \"========== %prefix% ========== " +
-                                    "<newline>Points: %points% \n" +
-                                    "<newline>Number of bans: %logssize% \n" +
-                                    "<newline>last Ban: \n" +
-                                    "<newline>Reason: %grund% \n" +
-                                    "<newline>from: %fromplayer% \n" +
-                                    "<newline>Date: %date%\" \n \n" +
-
-                                    "Banlog2: \"========== %prefix% ==========\n" +
-                                    "<newline>Ban Nummer: %logIndex% \n" +
-                                    "<newline>Ban: \n" +
-                                    "<newline>Reason: %grund% \n" +
-                                    "<newline>from: %fromplayer% \n" +
-                                    "<newline>Date: %date%\" \n \n" +
-
-                                    "BanHelp: \"========== %prefix% ==========" +
-                                    "<newline> /ban <Player> 1,2,3..." +
-                                    "<newline /ban <Player> <time in Hours> <reson>" +
-                                    "<newline> /unban <Player>\n" +
-
-                                    "NotFoundPlayerData: \"No entry found for this player.\"\n" +
-                                    "PlayerNotFound: \"Player Not Found\"" +
-                                    "Playerunban: \"%prefix% You have unban The player %player% \n" +
-                                    "NOSQLConnectionERROR: \"%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established.\"\n" +
-                                    "NoPermission: %prefix% You have no Permissions to use this Command"
+                                    KickMessage: "%prefix% <newline> You have been warned/banned please Join New for more info"
+                                    
+                                    ReturnBan: "%prefix%  You have the player %targetPlayer% banned from the server because of %reson%"
+                                    
+                                    ReturnChatban: "%prefix% You have the Spieler %targetPlayer% banned from the Chat because of %reson%"
+                                    
+                                    Banlog1: "========== %prefix% =========="
+                                    <newline>Points: %points%
+                                    <newline>Number of bans: %logssize%
+                                    <newline>last Ban:
+                                    <newline>Reason: %grund%
+                                    <newline>from: %fromplayer%
+                                    <newline>Date: %date%"
+                                    
+                                    Banlog2: "========== %prefix% ==========
+                                    <newline>Ban Nummer: %logIndex%
+                                    <newline>Ban:
+                                    <newline>Reason: %grund%
+                                    <newline>from: %fromplayer%
+                                    <newline>Date: %date%"
+                                    
+                                    BanHelp: "========== %prefix% ==========
+                                    <newline> /ban <Player> 1,2,3...
+                                    <newline /ban <Player> <time in Hours> <reson>
+                                    <newline> /unban <Player>
+                                    NotFoundPlayerData: "No entry found for this player."
+                                    PlayerNotFound: "Player Not Found"
+                                    Playerunban: "%prefix% You have unban The player %player%
+                                    NOSQLConnectionERROR: "%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established."
+                                    NoPermission: %prefix% You have no Permissions to use this Command"""
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -302,9 +296,6 @@ public class BanPlugin {
     public void readMongoDB(String fileName) {
         Yaml yaml = new Yaml();
         try (InputStream inputStream = new FileInputStream(fileName)) {
-            if (inputStream == null) {
-                throw new IllegalArgumentException(fileName + " not found");
-            }
             Map<String, Object> data = yaml.load(inputStream);
 
             Map<String, Object> bans = (Map<String, Object>) data.get("Bans");
@@ -413,9 +404,6 @@ public class BanPlugin {
     public void readMessagesConfig(String fileName) {
         Yaml yaml = new Yaml();
         try (InputStream inputStream = new FileInputStream(fileName)) {
-            if (inputStream == null) {
-                throw new IllegalArgumentException(fileName + " not found");
-            }
             Map<String, Object> data = yaml.load(inputStream);
 
             prefixMiniMessage = (String) data.get("Prefix");
