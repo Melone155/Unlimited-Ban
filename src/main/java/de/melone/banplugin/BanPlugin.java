@@ -98,7 +98,7 @@ public class BanPlugin {
     public static String noperms;
 
     @Inject
-    public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager, @DataDirectory Path dataDirectory) throws FileNotFoundException {
+    public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager, @DataDirectory Path dataDirectory) {
         this.logger = logger;
 
         //Create Folder and All Files
@@ -107,9 +107,9 @@ public class BanPlugin {
         CreateBanReasons();
         CreateMessage();
 
-        //readBanConfig("plugins/Bansystem/MongoDB.yml");
-        //readSettingsConfig("plugins/Bansystem/Ban.yml");
-        //readMessagesConfig("plugins/Bansystem/Messages.yml");
+        readMongoDB("plugins/Bansystem/MongoDB.yml");
+        readBanReasons("plugins/Bansystem/BanReasons.yml");
+        readMessagesConfig("plugins/Bansystem/Messages.yml");
 
         //BanSQL.ConnectionBan();
         //BanlogSQL.ConnectionBan();
@@ -166,69 +166,59 @@ public class BanPlugin {
                 banfile.createNewFile();
                 try (FileWriter writer = new FileWriter(banfile)) {
                     writer.write(
-                            "# All ban times are given in hours\n" +
-                                    "# Ban type is Chat and Server\n" +
-                                    "\n" +
-                                    "Bans:\n" +
-                                    "  1:\n" +
-                                    "    Reason: Hacking\n" +
-                                    "    time: 1 \n" +
-                                    "    type: Server\n" +
+                            """
+                                    # All ban times are given in hours
+                                    # Ban type is Chat and Server
 
-                                    "  2:\n" +
-                                    "    Reason: AD\n" +
-                                    "    time: 1\n" +
-                                    "    type: Chat\n" +
-
-                                    "  3:\n" +
-                                    "    Reason: Spam\n" +
-                                    "    time: 1\n" +
-                                    "    type: Chat\n" +
-
-                                    "  4:\n" +
-                                    "    Reason: Insult\n" +
-                                    "    time: 1\n" +
-                                    "    type: Chat\n" +
-
-                                    "  5:\n" +
-                                    "    Reason: Bugusing\n" +
-                                    "    time: 1\n" +
-                                    "    type: Server\n" +
-
-                                    "  6:\n" +
-                                    "    Reason: Skin\n" +
-                                    "    time: 1\n" +
-                                    "    type: Server\n" +
-
-                                    "  7:\n" +
-                                    "    Reason: Hatespeech\n" +
-                                    "    time: 1\n" +
-                                    "    type: Chat\n" +
-
-                                    "  8:\n" +
-                                    "    Reason: Illegal buildings\n" +
-                                    "    time: 1\n" +
-                                    "    type: Server\n" +
-
-                                    "  9:\n" +
-                                    "    Reason: Beleidigung (Voice Mod)\n" +
-                                    "    time: 1\n" +
-                                    "    type: Server\n" +
-
-                                    "  10:\n" +
-                                    "    Reason: Soundbord (Voice Mod)\n" +
-                                    "    time: 1\n" +
-                                    "    type: Server\n" +
-
-                                    "  11:\n" +
-                                    "    Reason: Betteln\n" +
-                                    "    time: 1\n" +
-                                    "    type: Chat\n" +
-
-                                    "  Poins:\n" +
-                                    "    Max Poins: 1\n" +
-                                    "    Bantime: 1\n" +
-                                    "    BanReason: Maximale Anzahl an Verfahrnungen"
+                                    Bans:
+                                      1:
+                                        Reason: Hacking
+                                        time: 1
+                                        type: Server
+                                      2:
+                                        Reason: AD
+                                        time: 1
+                                        type: Chat
+                                      3:
+                                        Reason: Spam
+                                        time: 1
+                                        type: Chat
+                                      4:
+                                        Reason: Insult
+                                        time: 1
+                                        type: Chat
+                                      5:
+                                        Reason: Bugusing
+                                        time: 1
+                                        type: Server
+                                      6:
+                                        Reason: Skin
+                                        time: 1
+                                        type: Server
+                                      7:
+                                        Reason: Hatespeech
+                                        time: 1
+                                        type: Chat
+                                      8:
+                                        Reason: Illegal buildings
+                                        time: 1
+                                        type: Server
+                                      9:
+                                        Reason: Beleidigung (Voice Mod)
+                                        time: 1
+                                        type: Server
+                                      10:
+                                        Reason: Soundbord (Voice Mod)
+                                        time: 1
+                                        type: Server
+                                      11:
+                                        Reason: Betteln
+                                        time: 1
+                                        type: Chat
+                                      Poins:
+                                        Max Poins: 1
+                                        Bantime: 1
+                                        BanReason: Maximale Anzahl an Verfahrnungen"""
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -319,7 +309,7 @@ public class BanPlugin {
         }
     }
 
-    public void readSettingsConfig(String fileName) {
+    public void readBanReasons(String fileName) {
         Yaml yaml = new Yaml();
         try (InputStream inputStream = new FileInputStream(fileName)) {
             Map<String, Object> data = yaml.load(inputStream);
