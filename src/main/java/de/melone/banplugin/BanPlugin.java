@@ -2,42 +2,25 @@ package de.melone.banplugin;
 
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
-import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.Subscribe;
-import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
-import de.melone.banplugin.Listener.JoinEvent;
-import de.melone.banplugin.Listener.PlayerChat;
-import de.melone.banplugin.cmd.CMD_ban;
-import de.melone.banplugin.cmd.CMD_banlog;
-import de.melone.banplugin.cmd.CMD_unban;
-import de.melone.banplugin.ulti.BanSQL;
-import de.melone.banplugin.ulti.BanlogSQL;
-import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-@Plugin(
-        id = "ban_plugin",
-        name = "Ban Plugin",
-        version = "1.0-SNAPSHOT"
-)
 public class BanPlugin {
 
-    public static ArrayList<String> playerChatAllow = new ArrayList<>();
 
     private final Logger logger;
     private final ProxyServer server;
     private final CommandManager commandManager;
 
+    //NoSQL Ban
     public static String bansHost;
     public static int bansPort;
     public static String bansDatabase;
@@ -45,6 +28,7 @@ public class BanPlugin {
     public static String bansUsername;
     public static String bansPassword;
 
+    //NoSQL BanLog
     public static String banlogHost;
     public static int banlogPort;
     public static String banlogDatabase;
@@ -52,6 +36,7 @@ public class BanPlugin {
     public static String banlogUsername;
     public static String banlogPassword;
 
+    //Ban reasons
     public static String reson1;
     public static String time1;
     public static String type1;
@@ -84,10 +69,23 @@ public class BanPlugin {
     public static String time8;
     public static String type8;
 
+    public static String reson9;
+    public static String time9;
+    public static String type9;
+
+    public static String reson10;
+    public static String time10;
+    public static String type10;
+
+    public static String reson11;
+    public static String time11;
+    public static String type11;
+
     public static String MaxPoins;
     public static String Bantime;
     public static String MaxPoinsReason;
 
+    //Read all messages
     public static String prefixMiniMessage;
     public static String KickMessage;
     public static String ReturnBan;
@@ -111,35 +109,33 @@ public class BanPlugin {
         this.commandManager = commandManager;
         this.dataDirectory = dataDirectory;
 
-        createConfig();
-        readBanConfig("plugins/Bansystem/MongoDB.yml");
-        readSettingsConfig("plugins/Bansystem/Ban.yml");
-        readMessagesConfig("plugins/Bansystem/Messages.yml");
+        //Create Folder and All Files
+        CreateFolder();
+        CreateMongodb();
+        CreateBanReasons();
+        CreateMessage();
 
-        BanSQL.ConnectionBan();
-        BanlogSQL.ConnectionBan();
+        //readBanConfig("plugins/Bansystem/MongoDB.yml");
+        //readSettingsConfig("plugins/Bansystem/Ban.yml");
+        //readMessagesConfig("plugins/Bansystem/Messages.yml");
+
+        //BanSQL.ConnectionBan();
+        //BanlogSQL.ConnectionBan();
     }
 
     @Subscribe
-    public void onProxyInitialization(ProxyInitializeEvent event) {
-        server.getEventManager().register(this, new JoinEvent());
-        server.getEventManager().register(this, new PlayerChat());
+    public void onProxyInitialization(ProxyInitializeEvent event) {}
 
-        CommandManager commandManager = server.getCommandManager();
-        commandManager.register("ban", new CMD_ban(server));
-        commandManager.register("unban", new CMD_unban(server));
-        commandManager.register("banlog", new CMD_banlog(server));
-    }
-
-    private void createConfig() {
+    private void CreateFolder(){
         File folder = new File("plugins/Bansystem");
-        File file = new File("plugins/Bansystem/MongoDB.yml");
-        File banfile = new File("plugins/Bansystem/Ban.yml");
-        File messagesfile = new File("plugins/Bansystem/Messages.yml");
 
         if (!folder.exists()) {
             folder.mkdir();
         }
+    }
+
+    private void CreateMongodb() {
+        File file = new File("plugins/Bansystem/MongoDB.yml");
 
         if (!file.exists()) {
             try {
@@ -166,6 +162,10 @@ public class BanPlugin {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void CreateBanReasons() {
+        File banfile = new File("plugins/Bansystem/BanReasons.yml");
 
         if (!banfile.exists()) {
             try {
@@ -180,34 +180,57 @@ public class BanPlugin {
                                     "    Reason: Hacking\n" +
                                     "    time: 1 \n" +
                                     "    type: Server\n" +
+
                                     "  2:\n" +
                                     "    Reason: AD\n" +
                                     "    time: 1\n" +
                                     "    type: Chat\n" +
+
                                     "  3:\n" +
                                     "    Reason: Spam\n" +
                                     "    time: 1\n" +
                                     "    type: Chat\n" +
+
                                     "  4:\n" +
                                     "    Reason: Insult\n" +
                                     "    time: 1\n" +
                                     "    type: Chat\n" +
+
                                     "  5:\n" +
                                     "    Reason: Bugusing\n" +
                                     "    time: 1\n" +
                                     "    type: Server\n" +
+
                                     "  6:\n" +
                                     "    Reason: Skin\n" +
                                     "    time: 1\n" +
                                     "    type: Server\n" +
+
                                     "  7:\n" +
                                     "    Reason: Hatespeech\n" +
                                     "    time: 1\n" +
                                     "    type: Chat\n" +
+
                                     "  8:\n" +
                                     "    Reason: Illegal buildings\n" +
                                     "    time: 1\n" +
                                     "    type: Server\n" +
+
+                                    "  9:\n" +
+                                    "    Reason: Beleidigung (Voice Mod)\n" +
+                                    "    time: 1\n" +
+                                    "    type: Server\n" +
+
+                                    "  10:\n" +
+                                    "    Reason: Soundbord (Voice Mod)\n" +
+                                    "    time: 1\n" +
+                                    "    type: Server\n" +
+
+                                    "  11:\n" +
+                                    "    Reason: Betteln\n" +
+                                    "    time: 1\n" +
+                                    "    type: Chat\n" +
+
                                     "  Poins:\n" +
                                     "    Max Poins: 1\n" +
                                     "    Bantime: 1\n" +
@@ -220,6 +243,10 @@ public class BanPlugin {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void CreateMessage() {
+        File messagesfile = new File("plugins/Bansystem/Messages.yml");
 
         if (!messagesfile.exists()) {
             try {
@@ -227,41 +254,41 @@ public class BanPlugin {
                 try (FileWriter writer = new FileWriter(messagesfile)) {
                     writer.write(
                             "# Alle This Messages Support MIniMessages \n" +
-                            "# https://docs.advntr.dev/index.html \n \n" +
+                                    "# https://docs.advntr.dev/index.html \n \n" +
 
-                            "Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray> \n\n" +
+                                    "Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray> \n\n" +
 
-                            "KickMessage: \"%prefix% <newline> You have been warned/banned please Join New for more info\" \n \n" +
+                                    "KickMessage: \"%prefix% <newline> You have been warned/banned please Join New for more info\" \n \n" +
 
-                            "ReturnBan: \"%prefix%  You have the player %targetPlayer% banned from the server because of %reson%\" \n \n" +
+                                    "ReturnBan: \"%prefix%  You have the player %targetPlayer% banned from the server because of %reson%\" \n \n" +
 
-                            "ReturnChatban: \"%prefix% You have the Spieler %targetPlayer% banned from the Chat because of %reson%\" \n \n" +
+                                    "ReturnChatban: \"%prefix% You have the Spieler %targetPlayer% banned from the Chat because of %reson%\" \n \n" +
 
-                            "Banlog1: \"========== %prefix% ========== " +
-                            "<newline>Points: %points% \n" +
-                            "<newline>Number of bans: %logssize% \n" +
-                            "<newline>last Ban: \n" +
-                            "<newline>Reason: %grund% \n" +
-                            "<newline>from: %fromplayer% \n" +
-                            "<newline>Date: %date%\" \n \n" +
+                                    "Banlog1: \"========== %prefix% ========== " +
+                                    "<newline>Points: %points% \n" +
+                                    "<newline>Number of bans: %logssize% \n" +
+                                    "<newline>last Ban: \n" +
+                                    "<newline>Reason: %grund% \n" +
+                                    "<newline>from: %fromplayer% \n" +
+                                    "<newline>Date: %date%\" \n \n" +
 
-                            "Banlog2: \"========== %prefix% ==========\n" +
-                            "<newline>Ban Nummer: %logIndex% \n" +
-                            "<newline>Ban: \n" +
-                            "<newline>Reason: %grund% \n" +
-                            "<newline>from: %fromplayer% \n" +
-                            "<newline>Date: %date%\" \n \n" +
+                                    "Banlog2: \"========== %prefix% ==========\n" +
+                                    "<newline>Ban Nummer: %logIndex% \n" +
+                                    "<newline>Ban: \n" +
+                                    "<newline>Reason: %grund% \n" +
+                                    "<newline>from: %fromplayer% \n" +
+                                    "<newline>Date: %date%\" \n \n" +
 
-                            "BanHelp: \"========== %prefix% ==========" +
-                            "<newline> /ban <Player> 1,2,3..." +
-                            "<newline /ban <Player> <time in Hours> <reson>" +
-                            "<newline> /unban <Player>\n" +
+                                    "BanHelp: \"========== %prefix% ==========" +
+                                    "<newline> /ban <Player> 1,2,3..." +
+                                    "<newline /ban <Player> <time in Hours> <reson>" +
+                                    "<newline> /unban <Player>\n" +
 
-                            "NotFoundPlayerData: \"No entry found for this player.\"\n" +
-                            "PlayerNotFound: \"Player Not Found\"" +
-                            "Playerunban: \"%prefix% You have unban The player %player% \n" +
-                            "NOSQLConnectionERROR: \"%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established.\"\n" +
-                            "NoPermission: %prefix% You have no Permissions to use this Command"
+                                    "NotFoundPlayerData: \"No entry found for this player.\"\n" +
+                                    "PlayerNotFound: \"Player Not Found\"" +
+                                    "Playerunban: \"%prefix% You have unban The player %player% \n" +
+                                    "NOSQLConnectionERROR: \"%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established.\"\n" +
+                                    "NoPermission: %prefix% You have no Permissions to use this Command"
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -272,7 +299,7 @@ public class BanPlugin {
         }
     }
 
-    public void readBanConfig(String fileName) {
+    public void readMongoDB(String fileName) {
         Yaml yaml = new Yaml();
         try (InputStream inputStream = new FileInputStream(fileName)) {
             if (inputStream == null) {
@@ -316,6 +343,9 @@ public class BanPlugin {
             Map<String, Object> ban6 = (Map<String, Object>) bans.get(6);
             Map<String, Object> ban7 = (Map<String, Object>) bans.get(7);
             Map<String, Object> ban8 = (Map<String, Object>) bans.get(8);
+            Map<String, Object> ban9 = (Map<String, Object>) bans.get(9);
+            Map<String, Object> ban10 = (Map<String, Object>) bans.get(10);
+            Map<String, Object> ban11 = (Map<String, Object>) bans.get(11);
             Map<String, Object> poins = (Map<String, Object>) bans.get("Poins");
 
             // 1
@@ -358,6 +388,18 @@ public class BanPlugin {
             time8 = String.valueOf(ban8.get("time"));
             type8 = (String) ban8.get("type");
 
+            reson9 = (String) ban8.get("Reason");
+            time9 = String.valueOf(ban8.get("time"));
+            type9 = (String) ban8.get("type");
+
+            reson10 = (String) ban8.get("Reason");
+            time10 = String.valueOf(ban8.get("time"));
+            type10 = (String) ban8.get("type");
+
+            reson11 = (String) ban8.get("Reason");
+            time11 = String.valueOf(ban8.get("time"));
+            type11 = (String) ban8.get("type");
+
             //Poins
             MaxPoins = String.valueOf(poins.get("Max Poins"));
             Bantime = String.valueOf(poins.get("Bantime"));
@@ -366,7 +408,6 @@ public class BanPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void readMessagesConfig(String fileName) {
