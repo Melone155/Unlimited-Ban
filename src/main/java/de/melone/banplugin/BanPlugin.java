@@ -79,6 +79,10 @@ public class BanPlugin {
     public static String time11;
     public static String type11;
 
+    public static String reson12;
+    public static String time12;
+    public static String type12;
+
     public static String MaxPoins;
     public static String Bantime;
     public static String MaxPoinsReason;
@@ -215,6 +219,10 @@ public class BanPlugin {
                                         Reason: Betteln
                                         time: 1
                                         type: Chat
+                                      12:
+                                         Reason: Ban Umgehung
+                                        time: 1
+                                        type: Server
                                       Poins:
                                         Max Poins: 1
                                         Bantime: 1
@@ -327,6 +335,7 @@ public class BanPlugin {
             Map<String, Object> ban9 = (Map<String, Object>) bans.get(9);
             Map<String, Object> ban10 = (Map<String, Object>) bans.get(10);
             Map<String, Object> ban11 = (Map<String, Object>) bans.get(11);
+            Map<String, Object> ban12 = (Map<String, Object>) bans.get(12);
             Map<String, Object> poins = (Map<String, Object>) bans.get("Poins");
 
             // 1
@@ -369,17 +378,21 @@ public class BanPlugin {
             time8 = String.valueOf(ban8.get("time"));
             type8 = (String) ban8.get("type");
 
-            reson9 = (String) ban8.get("Reason");
-            time9 = String.valueOf(ban8.get("time"));
-            type9 = (String) ban8.get("type");
+            reson9 = (String) ban9.get("Reason");
+            time9 = String.valueOf(ban9.get("time"));
+            type9 = (String) ban9.get("type");
 
-            reson10 = (String) ban8.get("Reason");
-            time10 = String.valueOf(ban8.get("time"));
-            type10 = (String) ban8.get("type");
+            reson10 = (String) ban10.get("Reason");
+            time10 = String.valueOf(ban10.get("time"));
+            type10 = (String) ban10.get("type");
 
-            reson11 = (String) ban8.get("Reason");
-            time11 = String.valueOf(ban8.get("time"));
-            type11 = (String) ban8.get("type");
+            reson11 = (String) ban11.get("Reason");
+            time11 = String.valueOf(ban11.get("time"));
+            type11 = (String) ban11.get("type");
+
+            reson12 = (String) ban12.get("Reason");
+            time12 = String.valueOf(ban12.get("time"));
+            type12 = (String) ban12.get("type");
 
             //Poins
             MaxPoins = String.valueOf(poins.get("Max Poins"));

@@ -5,26 +5,29 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.InsertOneResult;
 import com.velocitypowered.api.proxy.Player;
 import de.melone.banplugin.BanPlugin;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bson.Document;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.time.format.DateTimeFormatter;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public class Ban {
 
-    public static MongoCollection<org.bson.Document> collection;
+    public static MongoCollection<Document> collection;
     public static MongoClient mongoClient;
-    private static final String uri = "mongodb://" + BanPlugin.banlogUsername + ":" + BanPlugin.banlogPassword + "@" + BanPlugin.banlogHost + ":" + BanPlugin.banlogPort + "/Ban?authSource=" + BanPlugin.banlogDatabase;
+    private static final String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort + "/Ban?authSource=Ban";
 
     public static void ConnectionBan() {
 
         mongoClient = MongoClients.create(uri);
-        MongoDatabase database = mongoClient.getDatabase(BanPlugin.banlogDatabase);
-        collection = database.getCollection(BanPlugin.banlogCollection);
+        MongoDatabase database = mongoClient.getDatabase(BanPlugin.bansDatabase);
+        collection = database.getCollection(BanPlugin.bansCollection);
+
     }
 
     public static boolean isMongoDBConnected(MongoClient mongoClient) {
@@ -38,51 +41,34 @@ public class Ban {
         }
     }
 
-    public static void AddBanLog(Player player,Player target ,String reason, LocalDateTime localDateTime){
+    public static void CreatePlayerBan(Player player, LocalDateTime localDateTime, String reson, int bandauer) {
+
         if (!isMongoDBConnected(mongoClient)) {
-            player.sendMessage(Component.text(BanPlugin.prefixMiniMessage + "Fehler: 425 Please contact an Admin"));
-            return;
-        }
+            player.sendMessage(Component.text(BanPlugin.prefixMiniMessage + "Fehler: 425 Bitte Kontaktieren sie einen Admin"));
+        } else {
 
-        try {
-            Document query = new Document("_id", target.getUniqueId().toString());
-            Document existingDoc = collection.find(query).first();
+            Document doc = collection.find(eq("_id", player.getUniqueId().toString())).first();
 
-            if (existingDoc == null) {
-                CreatePlayerlog(player, target, reason, localDateTime);
-                return;
+            LocalDateTime time = localDateTime.plusDays(bandauer);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            String formatDateTime = time.format(formatter);
+
+            if (doc == null) {
+                InsertOneResult result = collection.insertOne(new Document()
+                        .append("_id", player.getUniqueId().toString())
+                        .append("name", player.getGameProfile().getName())
+                        .append("reson", reson)
+                        .append("Time", localDateTime.toString())
+                        .append("Hours", bandauer)
+                        .append("Type", "")
+                        .append("Timeforplayer", formatDateTime));
             }
-
-            Integer points = existingDoc.getInteger("Points");
-            int newpoints = (points != null) ? points + 1 : 1; // Fallback to 1 if "Punkte" is null
-
-            List<Document> logs = existingDoc.getList("Log", Document.class);
-            if (logs == null) {
-                logs = new ArrayList<>();
-            }
-
-            Document logEntry = new Document("From", player.getGameProfile().getName())
-                    .append("Reason", reason)
-                    .append("Date", localDateTime);
-
-            logs.add(logEntry);
-            collection.updateOne(query, new Document("$set", new Document("Points", newpoints)));
-            collection.updateOne(query, new Document("$set", new Document("Log", logs)));
-
-        } catch (Exception e) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + "Es ist ein Fehler aufgetreten"));
-            System.out.println("Error when creating or updating the entry: " + e.getMessage());
         }
     }
 
-    private static void CreatePlayerlog(Player player,Player target ,String reason, LocalDateTime localDateTime){
-        Document logEntry = new Document("From", player.getGameProfile().getName())
-                .append("Reason", reason)
-                .append("Date", localDateTime);
-
-        Document newDocument = new Document("_id", target.getUniqueId().toString())
-                .append("Points", 1)
-                .append("Log", Collections.singletonList(logEntry));
-        collection.insertOne(newDocument);
+    public static String GetPoints(Player player) {
+        Document doc = collection.find(eq("_id", player.getUniqueId().toString())).first();
+        assert doc != null;
+        return doc.getString("Punkte");
     }
 }
