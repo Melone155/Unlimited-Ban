@@ -1,12 +1,10 @@
 package de.melone.banplugin.cmd;
 
-import com.mojang.brigadier.Command;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import de.melone.banplugin.BanPlugin;
-import de.melone.banplugin.ulti.Ban;
 import de.melone.banplugin.ulti.Banlog;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bson.Document;
@@ -52,19 +50,16 @@ public class CMD_banlog implements SimpleCommand {
 
             Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
             Player targetPlayer = optionalPlayer.get();
-            if (optionalPlayer.isPresent()) {
-
-                GetPlayerBan(targetPlayer.getUniqueId().toString(), player);
-            }
+            GetPlayerBan(targetPlayer.getUniqueId().toString(), player);
         } else if (invocation.arguments().length == 2) {
             String playerName = args[0];
-            Integer count = Integer.valueOf(args[1]);
+            int count = Integer.parseInt(args[1]);
 
             Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
             Player targetPlayer = optionalPlayer.get();
 
             GetPlayerBanCount(targetPlayer.getUniqueId().toString(), player, count);
-         } else {
+        } else {
             player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + " " + BanPlugin.noperms));
         }
     }
@@ -88,8 +83,7 @@ public class CMD_banlog implements SimpleCommand {
             player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Banlog1)));
             return;
         }
-            player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Banlog1)));
-        }
+        player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.Banlog1)));
     }
 
     public static void GetPlayerBanCount(String uuid, Player player, int logIndex) {
@@ -121,7 +115,7 @@ public class CMD_banlog implements SimpleCommand {
     }
 
     private static String ConfigMessages(String message) {
-        if (message.contains("%logssize%")  || message.contains("%points%") || message.contains("%fromplayer%") || message.contains("%date%")) {
+        if (message.contains("%logssize%") || message.contains("%points%") || message.contains("%fromplayer%") || message.contains("%date%")) {
             return message.replace("%spieler%", player.getUsername())
                     .replace("%points%", grund)
                     .replace("%fromplayer%", fromplayer)
