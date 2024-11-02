@@ -9,6 +9,7 @@ import de.melone.banplugin.ulti.Ban;
 import de.melone.banplugin.ulti.Banlog;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
+import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -45,108 +46,117 @@ public class CMD_ban implements SimpleCommand {
             String argument = args[1];
 
             Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
+            Optional<InetSocketAddress> remoteAddress = Optional.ofNullable(player.getRemoteAddress());
             if (optionalPlayer.isPresent()) {
-                targetPlayer = optionalPlayer.get();
-                LocalDateTime timenow = LocalDateTime.now();
+                if (remoteAddress.isPresent()) {
+                    targetPlayer = optionalPlayer.get();
+                    LocalDateTime timenow = LocalDateTime.now();
+                    String PlayerIPAddress = remoteAddress.get().getAddress().getHostAddress();
 
-                switch (argument) {
-                    case "1":
-                        if (BanPlugin.type1.equals("Server")) {
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson1, Integer.parseInt(BanPlugin.time1));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson1, Integer.parseInt(BanPlugin.time1));
-                        }
-                        break;
+                    switch (argument) {
+                        case "1":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson1, Integer.parseInt(BanPlugin.time1));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson1, Integer.parseInt(BanPlugin.time1));
+                            }
+                            break;
 
-                    case "2":
-                        if (BanPlugin.type1.equals("Server")) {
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson2, Integer.parseInt(BanPlugin.time2));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson2, Integer.parseInt(BanPlugin.time2));
-                        }
-                        break;
+                        case "2":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson2, Integer.parseInt(BanPlugin.time2));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson2, Integer.parseInt(BanPlugin.time2));
+                            }
+                            break;
 
-                    case "3":
-                        if (BanPlugin.type1.equals("Server")) {
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson3, Integer.parseInt(BanPlugin.time3));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson3, Integer.parseInt(BanPlugin.time3));
-                        }
-                        break;
+                        case "3":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson3, Integer.parseInt(BanPlugin.time3));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson3, Integer.parseInt(BanPlugin.time3));
+                            }
+                            break;
 
-                    case "4":
-                        if (BanPlugin.type1.equals("Server")) {
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson4, Integer.parseInt(BanPlugin.time4));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson4, Integer.parseInt(BanPlugin.time4));
-                        }
-                        break;
+                        case "4":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson4, Integer.parseInt(BanPlugin.time4));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson4, Integer.parseInt(BanPlugin.time4));
+                            }
+                            break;
 
-                    case "5":
-                        if (BanPlugin.type1.equals("Server")) {
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson5, Integer.parseInt(BanPlugin.time5));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson5, Integer.parseInt(BanPlugin.time5));
-                        }
-                        break;
+                        case "5":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson5, Integer.parseInt(BanPlugin.time5));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson5, Integer.parseInt(BanPlugin.time5));
+                            }
+                            break;
 
-                    case "6":
-                        if (BanPlugin.type1.equals("Server")) {
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson6, Integer.parseInt(BanPlugin.time6));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson6, Integer.parseInt(BanPlugin.time6));
-                        }
-                        break;
+                        case "6":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson6, Integer.parseInt(BanPlugin.time6));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson6, Integer.parseInt(BanPlugin.time6));
+                            }
+                            break;
 
-                    case "7":
-                        if (BanPlugin.type1.equals("Server")) {
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson7, Integer.parseInt(BanPlugin.time7));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson7, Integer.parseInt(BanPlugin.time7));
-                        }
-                        break;
+                        case "7":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson7, Integer.parseInt(BanPlugin.time7));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson7, Integer.parseInt(BanPlugin.time7));
+                            }
+                            break;
 
-                    case "8":
-                        if (BanPlugin.type1.equals("Server")) {
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson8, Integer.parseInt(BanPlugin.time8));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson8, Integer.parseInt(BanPlugin.time8));
-                        }
-                        break;
+                        case "8":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson8, Integer.parseInt(BanPlugin.time8));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson8, Integer.parseInt(BanPlugin.time8));
+                            }
+                            break;
 
-                    case "9":
-                        if (BanPlugin.type1.equals("Server")){
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson9, Integer.parseInt(BanPlugin.time9));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson9, Integer.parseInt(BanPlugin.time9));
-                        }
-                        break;
+                        case "9":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson9, Integer.parseInt(BanPlugin.time9));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson9, Integer.parseInt(BanPlugin.time9));
+                            }
+                            break;
 
-                    case "10":
-                        if (BanPlugin.type1.equals("Server")){
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson10, Integer.parseInt(BanPlugin.time10));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson10, Integer.parseInt(BanPlugin.time10));
-                        }
-                        break;
+                        case "10":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson10, Integer.parseInt(BanPlugin.time10));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson10, Integer.parseInt(BanPlugin.time10));
+                            }
+                            break;
 
-                    case "11":
-                        if (BanPlugin.type1.equals("Server")){
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson11, Integer.parseInt(BanPlugin.time11));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson11, Integer.parseInt(BanPlugin.time11));
-                        }
-                        break;
+                        case "11":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson11, Integer.parseInt(BanPlugin.time11));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson11, Integer.parseInt(BanPlugin.time11));
+                            }
+                            break;
 
-                    case "12":
-                        if (BanPlugin.type1.equals("Server")){
-                            BanPlayer(targetPlayer, player, timenow, BanPlugin.reson12, Integer.parseInt(BanPlugin.time12));
-                        } else {
-                            ChatBanPlayer(targetPlayer, player, timenow, BanPlugin.reson12, Integer.parseInt(BanPlugin.time12));
-                        }
-                        break;
+                        case "12":
+                            if (BanPlugin.type1.equals("Server")) {
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson12, Integer.parseInt(BanPlugin.time12));
+                            } else {
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson12, Integer.parseInt(BanPlugin.time12));
+                            }
+                            break;
+                    }
                 }
             }
+        } else {
+            player.sendMessage(MiniMessage.miniMessage().deserialize("========== " + BanPlugin.prefixMiniMessage + " ==========" +
+                    "<newline> /ban <Player> 1,2,3..." +
+                    "<newline /ban <Player> <time in Hours> <reson>" +
+                    "<newline> /unban <Player>"));
         }
     }
 
@@ -164,19 +174,19 @@ public class CMD_ban implements SimpleCommand {
         player.disconnect(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.KickMessage)));
     }
 
-    private void BanPlayer(Player targetPlayer, Player player,LocalDateTime timenow, String reson, int timehour){
-        if (Integer.parseInt(Ban.GetPoints(player)) == (Integer.parseInt(BanPlugin.MaxPoins) -1)) {
-            Ban.CreatePlayerBan(targetPlayer, timenow, BanPlugin.MaxPoinsReason, Integer.parseInt(BanPlugin.Bantime));
+    private void BanPlayer(Player targetPlayer, Player player, String ipaddress,LocalDateTime timenow, String reson, int timehour){
+        if (Integer.parseInt(Ban.GetPoints(player)) < (Integer.parseInt(BanPlugin.MaxPoins))) {
+            Ban.CreatePlayerBan(targetPlayer, ipaddress, timenow, BanPlugin.MaxPoinsReason, "Server", Integer.parseInt(BanPlugin.Bantime));
         } else {
-            Ban.CreatePlayerBan(targetPlayer, timenow, reson, timehour);
+            Ban.CreatePlayerBan(targetPlayer, ipaddress, timenow, reson, "Server",87660);
         }
-        Ban.CreatePlayerBan(targetPlayer, timenow, reson, timehour);
+
         PlayerKick(targetPlayer);
         player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.ReturnBan)));
     }
 
-    private void ChatBanPlayer(Player targetPlayer, Player player,LocalDateTime timenow, String reson, int dauerinTage){
-        Ban.CreatePlayerBan(targetPlayer, timenow, reson, dauerinTage);
+    private void ChatBanPlayer(Player targetPlayer, Player player,String ipaddress, LocalDateTime timenow, String reson, int dauerinTage){
+        Ban.CreatePlayerBan(targetPlayer, ipaddress, timenow, reson, "Chat", dauerinTage);
         Banlog.AddBanLog(targetPlayer, player, reson, timenow);
         player.sendMessage(MiniMessage.miniMessage().deserialize(ConfigMessages(BanPlugin.ReturnChatban)));
     }

@@ -6,6 +6,9 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import de.melone.banplugin.cmd.CMD_ban;
+import de.melone.banplugin.ulti.Ban;
+import de.melone.banplugin.ulti.Banlog;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
@@ -17,6 +20,7 @@ public class BanPlugin {
 
 
     private final Logger logger;
+    private final ProxyServer server;
 
     //NoSQL Ban
     public static String bansHost;
@@ -104,6 +108,7 @@ public class BanPlugin {
     @Inject
     public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager, @DataDirectory Path dataDirectory) {
         this.logger = logger;
+        this.server = server;
 
         //Create Folder and All Files
         CreateFolder();
@@ -115,12 +120,15 @@ public class BanPlugin {
         readBanReasons("plugins/Bansystem/BanReasons.yml");
         readMessagesConfig("plugins/Bansystem/Messages.yml");
 
-        //BanSQL.ConnectionBan();
-        //BanlogSQL.ConnectionBan();
+        Ban.ConnectionBan();
+        Banlog.ConnectionBan();
     }
 
     @Subscribe
-    public void onProxyInitialization(ProxyInitializeEvent event) {}
+    public void onProxyInitialization(ProxyInitializeEvent event) {
+        CommandManager commandManager = server.getCommandManager();
+        commandManager.register("ban", new CMD_ban(server));
+    }
 
     private void CreateFolder(){
         File folder = new File("plugins/Bansystem");

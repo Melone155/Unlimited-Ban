@@ -41,7 +41,7 @@ public class Ban {
         }
     }
 
-    public static void CreatePlayerBan(Player player, LocalDateTime localDateTime, String reson, int bandauer) {
+    public static void CreatePlayerBan(Player player, String ipaddress, LocalDateTime localDateTime, String reson, String bantype, int bandauer) {
 
         if (!isMongoDBConnected(mongoClient)) {
             player.sendMessage(Component.text(BanPlugin.prefixMiniMessage + "Fehler: 425 Bitte Kontaktieren sie einen Admin"));
@@ -58,10 +58,12 @@ public class Ban {
                         .append("_id", player.getUniqueId().toString())
                         .append("name", player.getGameProfile().getName())
                         .append("reson", reson)
+                        .append("BanType", bantype)
                         .append("Time", localDateTime.toString())
                         .append("Hours", bandauer)
                         .append("Type", "")
-                        .append("Timeforplayer", formatDateTime));
+                        .append("Timeforplayer", formatDateTime)
+                        .append("IP", ipaddress));
             }
         }
     }
