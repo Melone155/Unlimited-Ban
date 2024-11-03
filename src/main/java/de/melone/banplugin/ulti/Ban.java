@@ -26,11 +26,11 @@ public class Ban {
 
         mongoClient = MongoClients.create(uri);
         MongoDatabase database = mongoClient.getDatabase(BanPlugin.bansDatabase);
-        collection = database.getCollection(BanPlugin.bansCollection);
+        collection = database.getCollection("Bans");
 
     }
 
-    public static boolean isMongoDBConnected(MongoClient mongoClient) {
+    private static boolean isMongoDBConnected(MongoClient mongoClient) {
         try {
             mongoClient.listDatabaseNames();
 

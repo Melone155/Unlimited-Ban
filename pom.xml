@@ -60,6 +60,7 @@
     </repositories>
 
     <dependencies>
+
         <dependency>
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>

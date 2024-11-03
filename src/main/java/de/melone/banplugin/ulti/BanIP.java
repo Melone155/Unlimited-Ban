@@ -20,13 +20,13 @@ public class BanIP {
 
     public static MongoCollection<Document> collection;
     public static MongoClient mongoClient;
-    private static final String uri = "mongodb://" + BanPlugin.banipUsername + ":" + BanPlugin.banipPassword + "@" + BanPlugin.banipHost + ":" + BanPlugin.banipPort + "/?authSource=" + BanPlugin.banipDatabase;
+    private static final String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort + "/?authSource=" + BanPlugin.bansDatabase + "&authMechanism=SCRAM-SHA-1";
 
-    public static void ConnectionBan() {
+    private static void ConnectionBan() {
 
         mongoClient = MongoClients.create(uri);
-        MongoDatabase database = mongoClient.getDatabase(BanPlugin.banipDatabase);
-        collection = database.getCollection(BanPlugin.banipCollection);
+        MongoDatabase database = mongoClient.getDatabase(BanPlugin.bansDatabase);
+        collection = database.getCollection("BansIP");
 
     }
 
