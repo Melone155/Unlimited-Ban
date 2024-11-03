@@ -16,17 +16,17 @@ import java.time.format.DateTimeFormatter;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class Ban {
+public class BanIP {
 
     public static MongoCollection<Document> collection;
     public static MongoClient mongoClient;
-    private static final String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort + "/?authSource=" + BanPlugin.bansDatabase;
+    private static final String uri = "mongodb://" + BanPlugin.banipUsername + ":" + BanPlugin.banipPassword + "@" + BanPlugin.banipHost + ":" + BanPlugin.banipPort + "/?authSource=" + BanPlugin.banipDatabase;
 
     public static void ConnectionBan() {
 
         mongoClient = MongoClients.create(uri);
-        MongoDatabase database = mongoClient.getDatabase(BanPlugin.bansDatabase);
-        collection = database.getCollection(BanPlugin.bansCollection);
+        MongoDatabase database = mongoClient.getDatabase(BanPlugin.banipDatabase);
+        collection = database.getCollection(BanPlugin.banipCollection);
 
     }
 
@@ -41,7 +41,7 @@ public class Ban {
         }
     }
 
-    public static void CreatePlayerBan(Player player, String ipaddress, LocalDateTime localDateTime, String reson, String bantype, int bandauer) {
+    public static void CreateIPBan(Player player, String ipaddress, LocalDateTime localDateTime, String reson, String bantype, int bandauer) {
 
         if (!isMongoDBConnected(mongoClient)) {
             player.sendMessage(Component.text(BanPlugin.prefixMiniMessage + "Fehler: 425 Bitte Kontaktieren sie einen Admin"));
@@ -55,7 +55,7 @@ public class Ban {
 
             if (doc == null) {
                 InsertOneResult result = collection.insertOne(new Document()
-                        .append("_id", player.getUniqueId().toString())
+                        .append("_id", ipaddress)
                         .append("name", player.getGameProfile().getName())
                         .append("reson", reson)
                         .append("BanType", bantype)
@@ -63,15 +63,7 @@ public class Ban {
                         .append("Hours", bandauer)
                         .append("Type", "")
                         .append("Timeforplayer", formatDateTime));
-                
-                BanIP.CreateIPBan(player, ipaddress, localDateTime, reson, bantype, bandauer);
             }
         }
-    }
-
-    public static String GetPoints(Player player) {
-        Document doc = collection.find(eq("_id", player.getUniqueId().toString())).first();
-        assert doc != null;
-        return doc.getString("Punkte");
     }
 }

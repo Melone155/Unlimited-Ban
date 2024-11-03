@@ -20,7 +20,7 @@ public class Banlog {
 
     public static MongoCollection<Document> collection;
     public static MongoClient mongoClient;
-    private static final String uri = "mongodb://" + BanPlugin.banlogUsername + ":" + BanPlugin.banlogPassword + "@" + BanPlugin.banlogHost + ":" + BanPlugin.banlogPort + "/Ban?authSource=" + BanPlugin.banlogDatabase;
+    private static final String uri = "mongodb://" + BanPlugin.banlogUsername + ":" + BanPlugin.banlogPassword + "@" + BanPlugin.banlogHost + ":" + BanPlugin.banlogPort + "/?authSource=" + BanPlugin.banlogDatabase;
 
     public static void ConnectionBan() {
 

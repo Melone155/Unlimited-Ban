@@ -7,6 +7,8 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import de.melone.banplugin.cmd.CMD_ban;
+import de.melone.banplugin.cmd.CMD_banlist;
+import de.melone.banplugin.cmd.CMD_banlog;
 import de.melone.banplugin.ulti.Ban;
 import de.melone.banplugin.ulti.Banlog;
 import org.slf4j.Logger;
@@ -37,6 +39,14 @@ public class BanPlugin {
     public static String banlogCollection;
     public static String banlogUsername;
     public static String banlogPassword;
+
+    //NoSQL BanIPs
+    public static String banipHost;
+    public static int banipPort;
+    public static String banipDatabase;
+    public static String banipCollection;
+    public static String banipUsername;
+    public static String banipPassword;
 
     //Ban reasons
     public static String reson1;
@@ -128,6 +138,8 @@ public class BanPlugin {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         CommandManager commandManager = server.getCommandManager();
         commandManager.register("ban", new CMD_ban(server));
+        commandManager.register("banlist", new CMD_banlist(server));
+        commandManager.register("banlog", new CMD_banlog(server));
     }
 
     private void CreateFolder(){
@@ -153,6 +165,15 @@ public class BanPlugin {
                               collection: myocllection
                               username: myuser
                               password: mypassword
+                           
+                            BanIP:
+                              host: localhost
+                              port: 27017
+                              database: mydatabase
+                              collection:
+                              username: myuser
+                              password: mypassword
+                           
                             Banlog:
                               host: localhost
                               port: 27017
@@ -160,7 +181,7 @@ public class BanPlugin {
                               collection: myocllection
                               username: myuser
                               password: mypassword
-                            """);
+                           \s""");
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
                 }
@@ -305,6 +326,7 @@ public class BanPlugin {
             Map<String, Object> data = yaml.load(inputStream);
 
             Map<String, Object> bans = (Map<String, Object>) data.get("Bans");
+            Map<String, Object> banip = (Map<String, Object>) data.get("BanIP");
             Map<String, Object> banlog = (Map<String, Object>) data.get("Banlog");
 
             bansHost = (String) bans.get("host");
@@ -313,6 +335,13 @@ public class BanPlugin {
             bansCollection = (String) bans.get("collection");
             bansUsername = (String) bans.get("username");
             bansPassword = (String) bans.get("password");
+
+            banipHost = (String) banip.get("host");
+            banipPort = (Integer) banip.get("port");
+            banipDatabase = (String) banip.get("database");
+            banipCollection = (String) banip.get("collection");
+            banipUsername = (String) banip.get("username");
+            banipPassword = (String) banip.get("password");
 
             banlogHost = (String) banlog.get("host");
             banlogPort = (Integer) banlog.get("port");
