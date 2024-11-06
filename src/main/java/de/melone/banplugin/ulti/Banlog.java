@@ -20,16 +20,16 @@ public class Banlog {
 
     public static MongoCollection<Document> collection;
     public static MongoClient mongoClient;
-    private static final String uri = "mongodb://" + BanPlugin.banlogUsername + ":" + BanPlugin.banlogPassword + "@" + BanPlugin.banlogHost + ":" + BanPlugin.banlogPort + "/?authSource=" + BanPlugin.banlogDatabase;
+    private static final String uri = "mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort + "/?authSource=" + BanPlugin.bansDatabase + "&authMechanism=SCRAM-SHA-1";
 
     public static void ConnectionBan() {
 
         mongoClient = MongoClients.create(uri);
-        MongoDatabase database = mongoClient.getDatabase(BanPlugin.banlogDatabase);
-        collection = database.getCollection(BanPlugin.banlogCollection);
+        MongoDatabase database = mongoClient.getDatabase(BanPlugin.bansDatabase);
+        collection = database.getCollection("Banlog");
     }
 
-    public static boolean isMongoDBConnected(MongoClient mongoClient) {
+    private static boolean isMongoDBConnected(MongoClient mongoClient) {
         try {
             mongoClient.listDatabaseNames();
 

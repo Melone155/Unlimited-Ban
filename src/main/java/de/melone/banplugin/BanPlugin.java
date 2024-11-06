@@ -1,6 +1,11 @@
 package de.melone.banplugin;
 
 import com.google.inject.Inject;
+import com.mongodb.MongoException;
+import com.mongodb.MongoTimeoutException;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -28,25 +33,8 @@ public class BanPlugin {
     public static String bansHost;
     public static int bansPort;
     public static String bansDatabase;
-    public static String bansCollection;
     public static String bansUsername;
     public static String bansPassword;
-
-    //NoSQL BanLog
-    public static String banlogHost;
-    public static int banlogPort;
-    public static String banlogDatabase;
-    public static String banlogCollection;
-    public static String banlogUsername;
-    public static String banlogPassword;
-
-    //NoSQL BanIPs
-    public static String banipHost;
-    public static int banipPort;
-    public static String banipDatabase;
-    public static String banipCollection;
-    public static String banipUsername;
-    public static String banipPassword;
 
     //Ban reasons
     public static String reson1;
@@ -130,8 +118,11 @@ public class BanPlugin {
         readBanReasons("plugins/Bansystem/BanReasons.yml");
         readMessagesConfig("plugins/Bansystem/Messages.yml");
 
-        Ban.ConnectionBan();
-        Banlog.ConnectionBan();
+        if (testConnection()) {
+            CollectionsCreate();
+            Ban.ConnectionBan();
+            Banlog.ConnectionBan();
+        }
     }
 
     @Subscribe
@@ -158,27 +149,10 @@ public class BanPlugin {
                 file.createNewFile();
                 try (FileWriter writer = new FileWriter(file)) {
                     writer.write("""
-                            Bans:
+                            Mongodb:
                               host: localhost
                               port: 27017
                               database: mydatabase
-                              collection: myocllection
-                              username: myuser
-                              password: mypassword
-                           
-                            BanIP:
-                              host: localhost
-                              port: 27017
-                              database: mydatabase
-                              collection:
-                              username: myuser
-                              password: mypassword
-                           
-                            Banlog:
-                              host: localhost
-                              port: 27017
-                              database: mydatabase
-                              collection: myocllection
                               username: myuser
                               password: mypassword
                            \s""");
@@ -325,30 +299,14 @@ public class BanPlugin {
         try (InputStream inputStream = new FileInputStream(fileName)) {
             Map<String, Object> data = yaml.load(inputStream);
 
-            Map<String, Object> bans = (Map<String, Object>) data.get("Bans");
-            Map<String, Object> banip = (Map<String, Object>) data.get("BanIP");
-            Map<String, Object> banlog = (Map<String, Object>) data.get("Banlog");
+            Map<String, Object> bans = (Map<String, Object>) data.get("Mongodb");
 
             bansHost = (String) bans.get("host");
             bansPort = (Integer) bans.get("port");
             bansDatabase = (String) bans.get("database");
-            bansCollection = (String) bans.get("collection");
             bansUsername = (String) bans.get("username");
             bansPassword = (String) bans.get("password");
 
-            banipHost = (String) banip.get("host");
-            banipPort = (Integer) banip.get("port");
-            banipDatabase = (String) banip.get("database");
-            banipCollection = (String) banip.get("collection");
-            banipUsername = (String) banip.get("username");
-            banipPassword = (String) banip.get("password");
-
-            banlogHost = (String) banlog.get("host");
-            banlogPort = (Integer) banlog.get("port");
-            banlogDatabase = (String) banlog.get("database");
-            banlogCollection = (String) banlog.get("collection");
-            banlogUsername = (String) banlog.get("username");
-            banlogPassword = (String) banlog.get("password");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -462,5 +420,51 @@ public class BanPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static void CollectionsCreate(){
+        try (MongoClient mongoClient = MongoClients.create("mongodb://" + bansUsername + ":" + bansPassword + "@" + bansHost + ":" + bansPort + "/?authSource=" + bansDatabase + "&authMechanism=SCRAM-SHA-1")) {
+            MongoDatabase database = mongoClient.getDatabase("Bans");
+
+            if (!collectionExists(database, "Bans")) {
+                database.createCollection("Bans");
+                return;
+            }
+
+            if (!collectionExists(database, "BansIP")){
+                database.createCollection("BansIP");
+                return;
+            }
+
+            if (!collectionExists(database, "Banlog")){
+                database.createCollection("Banlog");
+            }
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean collectionExists(MongoDatabase database, String collectionName) {
+        for (String name : database.listCollectionNames()) {
+            if (name.equals(collectionName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean testConnection() {
+        try (MongoClient mongoClient = MongoClients.create("mongodb://" + BanPlugin.bansUsername + ":" + BanPlugin.bansPassword + "@" + BanPlugin.bansHost + ":" + BanPlugin.bansPort + "/?authSource=" + BanPlugin.bansDatabase + "&authMechanism=SCRAM-SHA-1")) {
+            MongoDatabase database = mongoClient.getDatabase(bansDatabase);
+
+            database.listCollectionNames().first();
+            return true;
+
+        } catch (MongoTimeoutException e) {
+            System.err.println("Connection timeout");
+        } catch (Exception e) {
+            System.err.println("Connection error: " + e.getMessage());
+        }
+        return false;
     }
 }
