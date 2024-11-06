@@ -42,7 +42,11 @@ public class CMD_banlist implements SimpleCommand {
                 "<newline>5. " + BanPlugin.reson5 +
                 "<newline>6. " + BanPlugin.reson6 +
                 "<newline>7. " + BanPlugin.reson7 +
-                "<newline>8. " + BanPlugin.reson8
+                "<newline>8. " + BanPlugin.reson8 +
+                "<newline>9. " + BanPlugin.reson9 +
+                "<newline>10. " + BanPlugin.reson10 +
+                "<newline>11. " + BanPlugin.reson11 +
+                "<newline>12. " + BanPlugin.reson12
         ));
     }
 }
