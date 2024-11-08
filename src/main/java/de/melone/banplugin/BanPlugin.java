@@ -102,6 +102,8 @@ public class BanPlugin {
     public static String Playerunban;
     public static String ConnectionERROR;
     public static String noperms;
+    public static String tempbanhelp;
+    public static String errortempban;
 
     @Inject
     public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager, @DataDirectory Path dataDirectory) {
@@ -260,6 +262,9 @@ public class BanPlugin {
                                     
                                     ReturnChatban: "%prefix% You have the Spieler %targetPlayer% banned from the Chat because of %reson%"
                                     
+                                    tempbanhelp: "%prefix% Try /tempban <Player> <time in Hours> <type> <resion>"
+                                    tempbanerror: "Please check your entry"
+                                    
                                     Banlog1: "========== %prefix% =========="
                                     <newline>Points: %points%
                                     <newline>Number of bans: %logssize%
@@ -416,6 +421,8 @@ public class BanPlugin {
             Playerunban = (String) data.get("Playerunban");
             ConnectionERROR = (String) data.get("NOSQLConnectionERROR");
             noperms = (String) data.get("NoPermission");
+            tempbanhelp = (String) data.get("tempbanhelp");
+            errortempban = (String) data.get("tempbanerror");
 
         } catch (Exception e) {
             e.printStackTrace();
