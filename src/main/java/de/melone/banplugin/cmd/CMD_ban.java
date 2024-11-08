@@ -9,7 +9,6 @@ import de.melone.banplugin.ulti.Ban;
 import de.melone.banplugin.ulti.Banlog;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -46,73 +45,71 @@ public class CMD_ban implements SimpleCommand {
             String argument = args[1];
 
             Optional<Player> optionalPlayer = proxy.getPlayer(playerName);
-            Optional<InetSocketAddress> remoteAddress = Optional.ofNullable(player.getRemoteAddress());
             if (optionalPlayer.isPresent()) {
-                if (remoteAddress.isPresent()) {
                     targetPlayer = optionalPlayer.get();
                     LocalDateTime timenow = LocalDateTime.now();
-                    String PlayerIPAddress = remoteAddress.get().getAddress().getHostAddress();
+                    String PlayerIPAddress = String.valueOf(targetPlayer.getRemoteAddress());
 
                     switch (argument) {
                         case "1":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson1, Integer.parseInt(BanPlugin.time1));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson1, Integer.parseInt(BanPlugin.time1));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson1, Integer.parseInt(BanPlugin.time1));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson1, Integer.parseInt(BanPlugin.time1));
                             }
                             break;
 
                         case "2":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson2, Integer.parseInt(BanPlugin.time2));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson2, Integer.parseInt(BanPlugin.time2));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson2, Integer.parseInt(BanPlugin.time2));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson2, Integer.parseInt(BanPlugin.time2));
                             }
                             break;
 
                         case "3":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson3, Integer.parseInt(BanPlugin.time3));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson3, Integer.parseInt(BanPlugin.time3));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson3, Integer.parseInt(BanPlugin.time3));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson3, Integer.parseInt(BanPlugin.time3));
                             }
                             break;
 
                         case "4":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson4, Integer.parseInt(BanPlugin.time4));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson4, Integer.parseInt(BanPlugin.time4));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson4, Integer.parseInt(BanPlugin.time4));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson4, Integer.parseInt(BanPlugin.time4));
                             }
                             break;
 
                         case "5":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson5, Integer.parseInt(BanPlugin.time5));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson5, Integer.parseInt(BanPlugin.time5));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson5, Integer.parseInt(BanPlugin.time5));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson5, Integer.parseInt(BanPlugin.time5));
                             }
                             break;
 
                         case "6":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson6, Integer.parseInt(BanPlugin.time6));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson6, Integer.parseInt(BanPlugin.time6));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson6, Integer.parseInt(BanPlugin.time6));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson6, Integer.parseInt(BanPlugin.time6));
                             }
                             break;
 
                         case "7":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson7, Integer.parseInt(BanPlugin.time7));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson7, Integer.parseInt(BanPlugin.time7));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson7, Integer.parseInt(BanPlugin.time7));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson7, Integer.parseInt(BanPlugin.time7));
                             }
                             break;
 
                         case "8":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson8, Integer.parseInt(BanPlugin.time8));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson8, Integer.parseInt(BanPlugin.time8));
                             } else {
                                 ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson8, Integer.parseInt(BanPlugin.time8));
                             }
@@ -120,25 +117,25 @@ public class CMD_ban implements SimpleCommand {
 
                         case "9":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson9, Integer.parseInt(BanPlugin.time9));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson9, Integer.parseInt(BanPlugin.time9));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson9, Integer.parseInt(BanPlugin.time9));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson9, Integer.parseInt(BanPlugin.time9));
                             }
                             break;
 
                         case "10":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson10, Integer.parseInt(BanPlugin.time10));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson10, Integer.parseInt(BanPlugin.time10));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson10, Integer.parseInt(BanPlugin.time10));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson10, Integer.parseInt(BanPlugin.time10));
                             }
                             break;
 
                         case "11":
                             if (BanPlugin.type1.equals("Server")) {
-                                BanPlayer(targetPlayer, player, PlayerIPAddress,timenow, BanPlugin.reson11, Integer.parseInt(BanPlugin.time11));
+                                BanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson11, Integer.parseInt(BanPlugin.time11));
                             } else {
-                                ChatBanPlayer(targetPlayer, player,  PlayerIPAddress,timenow, BanPlugin.reson11, Integer.parseInt(BanPlugin.time11));
+                                ChatBanPlayer(targetPlayer, player, PlayerIPAddress, timenow, BanPlugin.reson11, Integer.parseInt(BanPlugin.time11));
                             }
                             break;
 
@@ -150,7 +147,6 @@ public class CMD_ban implements SimpleCommand {
                             }
                             break;
                     }
-                }
             }
         } else {
             player.sendMessage(MiniMessage.miniMessage().deserialize("========== " + BanPlugin.prefixMiniMessage + " ==========" +

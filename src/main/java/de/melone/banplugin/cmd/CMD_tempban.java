@@ -9,7 +9,6 @@ import de.melone.banplugin.ulti.Ban;
 import de.melone.banplugin.ulti.Banlog;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -31,12 +30,10 @@ public class CMD_tempban implements SimpleCommand{
         CommandSource source = invocation.source();
         String[] args = invocation.arguments();
 
-        if (!(source instanceof Player)) {
+        if (!(source instanceof Player player)) {
             System.out.println("This Command is Only for Player");
             return;
         }
-
-        Player player = (Player) source;
 
         if (!player.hasPermission("Ban.tempban")) {
             player.sendMessage(MiniMessage.miniMessage().deserialize(BanPlugin.prefixMiniMessage + BanPlugin.noperms));
