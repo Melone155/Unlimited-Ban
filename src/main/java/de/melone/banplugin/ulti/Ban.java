@@ -48,14 +48,16 @@ public class Ban {
         } else {
 
             Document doc = collection.find(eq("_id", player.getUniqueId().toString())).first();
+            Document docip = collection.find(eq("_id",ipaddress)).first();
 
             LocalDateTime time = localDateTime.plusDays(bandauer);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             String formatDateTime = time.format(formatter);
 
-            if (doc == null) {
+            if (doc == null || docip == null) {
                 InsertOneResult result = collection.insertOne(new Document()
                         .append("_id", player.getUniqueId().toString())
+                        .append("IP", ipaddress)
                         .append("name", player.getGameProfile().getName())
                         .append("reson", reson)
                         .append("BanType", bantype)
@@ -63,8 +65,6 @@ public class Ban {
                         .append("Hours", bandauer)
                         .append("Type", "")
                         .append("Timeforplayer", formatDateTime));
-                
-                BanIP.CreateIPBan(player, ipaddress, localDateTime, reson, bantype, bandauer);
             }
         }
     }
