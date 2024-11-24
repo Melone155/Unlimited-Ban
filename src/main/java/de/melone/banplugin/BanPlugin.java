@@ -104,6 +104,7 @@ public class BanPlugin {
     public static String noperms;
     public static String tempbanhelp;
     public static String errortempban;
+    public static String banscreen;
 
     @Inject
     public BanPlugin(ProxyServer server, Logger logger, CommandManager commandManager, @DataDirectory Path dataDirectory) {
@@ -253,14 +254,16 @@ public class BanPlugin {
                             """
                                     # Alle This Messages Support MIniMessages
                                     # https://docs.advntr.dev/index.html
-                                    
-                                    Prefix: <#ffa500>F<#f69d0e>u<#ec9507>c<#e38d01>h<#d98500>s<#cf7d00>c<#c67500>r<#bc6d00>a<#b36500>f<#a95d00>t<#9f5500>.<#954D00>d<#8B4500>e<gray>
+                                   
+                                    Prefix: "You Server"
 
                                     KickMessage: "%prefix% <newline> You have been warned/banned please Join New for more info"
+                                   
+                                    BanScreen: "%prefix% <newline>You are Banned <newline>Reason: %reason% <newline>until %time%<newline>You can make a unban application on unban.youserver.net"
+                                   
+                                    ReturnBan: "%prefix% You have the player %targetPlayer% banned from the server because of %reson%"
                                     
-                                    ReturnBan: "%prefix%  You have the player %targetPlayer% banned from the server because of %reson%"
-                                    
-                                    ReturnChatban: "%prefix% You have the Spieler %targetPlayer% banned from the Chat because of %reson%"
+                                    ReturnChatban: "%prefix% You have the player %targetPlayer% banned from the Chat because of %reson%"
                                     
                                     tempbanhelp: "%prefix% Try /tempban <Player> <time in Hours> <type> <resion>"
                                     tempbanerror: "Please check your entry"
@@ -423,6 +426,7 @@ public class BanPlugin {
             noperms = (String) data.get("NoPermission");
             tempbanhelp = (String) data.get("tempbanhelp");
             errortempban = (String) data.get("tempbanerror");
+            banscreen = (String) data.get("BanScreen");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -433,17 +437,17 @@ public class BanPlugin {
         try (MongoClient mongoClient = MongoClients.create("mongodb://" + bansUsername + ":" + bansPassword + "@" + bansHost + ":" + bansPort + "/?authSource=" + bansDatabase + "&authMechanism=SCRAM-SHA-1")) {
             MongoDatabase database = mongoClient.getDatabase("Bans");
 
-            if (!collectionExists(database, "Bans")) {
+            if (collectionExists(database, "Bans")) {
                 database.createCollection("Bans");
                 return;
             }
 
-            if (!collectionExists(database, "BansIP")){
+            if (collectionExists(database, "BansIP")){
                 database.createCollection("BansIP");
                 return;
             }
 
-            if (!collectionExists(database, "Banlog")){
+            if (collectionExists(database, "Banlog")){
                 database.createCollection("Banlog");
             }
         } catch (MongoException e) {
@@ -454,10 +458,10 @@ public class BanPlugin {
     private static boolean collectionExists(MongoDatabase database, String collectionName) {
         for (String name : database.listCollectionNames()) {
             if (name.equals(collectionName)) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public static boolean testConnection() {

@@ -5,6 +5,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import com.velocitypowered.api.proxy.Player;
 import de.melone.banplugin.BanPlugin;
@@ -63,7 +64,6 @@ public class Ban {
                         .append("BanType", bantype)
                         .append("Time", localDateTime.toString())
                         .append("Hours", bandauer)
-                        .append("Type", "")
                         .append("Timeforplayer", formatDateTime));
             }
         }
@@ -73,5 +73,19 @@ public class Ban {
         Document doc = collection.find(eq("_id", player.getUniqueId().toString())).first();
         assert doc != null;
         return doc.getString("Punkte");
+    }
+
+    public static boolean isPlayerBan(Player player, String ipAddress) {
+        var filter = Filters.or(Filters.eq("_id", player.getUniqueId().toString()),
+                Filters.eq("IP", ipAddress));
+
+        for (Document doc : collection.find(filter)) {
+            if (doc != null) {
+                if (doc.getString("BanType").equals("Server")){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
