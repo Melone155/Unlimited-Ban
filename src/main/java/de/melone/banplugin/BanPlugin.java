@@ -9,6 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import de.melone.banplugin.cmd.CMD_ban;
@@ -22,6 +23,8 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.Map;
+
+@Plugin(id = "banplugin", name = "BanPlugin", version = "1.0-SNAPSHOT", authors = {"Melone145"})
 
 public class BanPlugin {
 
@@ -182,15 +185,15 @@ public class BanPlugin {
 
                                     Bans:
                                       1:
-                                        Reason: Hacking
+                                        Reason: "Hacking"
                                         time: 1
-                                        type: Server
+                                        type: "Server"
                                       2:
-                                        Reason: AD
+                                        Reason: "AD"
                                         time: 1
-                                        type: Chat
+                                        type: "Chat"
                                       3:
-                                        Reason: Spam
+                                        Reason: "Spam"
                                         time: 1
                                         type: Chat
                                       4:
@@ -252,46 +255,64 @@ public class BanPlugin {
                 try (FileWriter writer = new FileWriter(messagesfile)) {
                     writer.write(
                             """
-                                    # Alle This Messages Support MIniMessages
-                                    # https://docs.advntr.dev/index.html
-                                   
-                                    Prefix: "You Server"
-
-                                    KickMessage: "%prefix% <newline> You have been warned/banned please Join New for more info"
-                                   
-                                    BanScreen: "%prefix% <newline>You are Banned <newline>Reason: %reason% <newline>until %time%<newline>You can make a unban application on unban.youserver.net"
-                                   
-                                    ReturnBan: "%prefix% You have the player %targetPlayer% banned from the server because of %reson%"
-                                    
-                                    ReturnChatban: "%prefix% You have the player %targetPlayer% banned from the Chat because of %reson%"
-                                    
-                                    tempbanhelp: "%prefix% Try /tempban <Player> <time in Hours> <type> <resion>"
-                                    tempbanerror: "Please check your entry"
-                                    
-                                    Banlog1: "========== %prefix% =========="
-                                    <newline>Points: %points%
-                                    <newline>Number of bans: %logssize%
-                                    <newline>last Ban:
-                                    <newline>Reason: %grund%
-                                    <newline>from: %fromplayer%
-                                    <newline>Date: %date%"
-                                    
-                                    Banlog2: "========== %prefix% ==========
-                                    <newline>Ban Nummer: %logIndex%
-                                    <newline>Ban:
-                                    <newline>Reason: %grund%
-                                    <newline>from: %fromplayer%
-                                    <newline>Date: %date%"
-                                    
-                                    BanHelp: "========== %prefix% ==========
-                                    <newline> /ban <Player> 1,2,3...
-                                    <newline /ban <Player> <time in Hours> <reson>
-                                    <newline> /unban <Player>
-                                    NotFoundPlayerData: "No entry found for this player."
-                                    PlayerNotFound: "Player Not Found"
-                                    Playerunban: "%prefix% You have unban The player %player%
-                                    NOSQLConnectionERROR: "%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established."
-                                    NoPermission: %prefix% You have no Permissions to use this Command"""
+                                # All ban times are given in hours
+                                # Ban type is Chat and Server
+                        
+                                Bans:
+                                  1:
+                                    Reason: "Hacking"
+                                    time: 1
+                                    type: "Server"
+                                  2:
+                                    Reason: "AD"
+                                    time: 1
+                                    type: "Chat"
+                                  3:
+                                    Reason: "Spam"
+                                    time: 1
+                                    type: "Chat"
+                                  4:
+                                    Reason: "Insult"
+                                    time: 1
+                                    type: "Chat"
+                                  5:
+                                    Reason: "Bugusing"
+                                    time: 1
+                                    type: "Server"
+                                  6:
+                                    Reason: "Skin"
+                                    time: 1
+                                    type: "Server"
+                                  7:
+                                    Reason: "Hatespeech"
+                                    time: 1
+                                    type: "Chat"
+                                  8:
+                                    Reason: "Illegal buildings"
+                                    time: 1
+                                    type: "Server"
+                                  9:
+                                    Reason: "Beleidigung (Voice Mod)"
+                                    time: 1
+                                    type: "Server"
+                                  10:
+                                    Reason: "Soundboard (Voice Mod)"
+                                    time: 1
+                                    type: "Server"
+                                  11:
+                                    Reason: "Betteln"
+                                    time: 1
+                                    type: "Chat"
+                                  12:
+                                    Reason: "Ban Umgehung"
+                                    time: 1
+                                    type: "Server"
+                        
+                                Poins:
+                                  Max_Poins: 1
+                                  Bantime: 1
+                                  BanReason: "Maximale Anzahl an Verfahrnungen"
+                            """
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -442,10 +463,12 @@ public class BanPlugin {
                 return;
             }
 
+            /*
             if (collectionExists(database, "BansIP")){
                 database.createCollection("BansIP");
                 return;
             }
+             */
 
             if (collectionExists(database, "Banlog")){
                 database.createCollection("Banlog");
