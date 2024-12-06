@@ -184,58 +184,70 @@ public class BanPlugin {
                                     # Ban type is Chat and Server
 
                                     Bans:
-                                      1:
-                                        Reason: "Hacking"
-                                        time: 1
-                                        type: "Server"
-                                      2:
-                                        Reason: "AD"
-                                        time: 1
-                                        type: "Chat"
-                                      3:
-                                        Reason: "Spam"
-                                        time: 1
-                                        type: Chat
-                                      4:
-                                        Reason: Insult
-                                        time: 1
-                                        type: Chat
-                                      5:
-                                        Reason: Bugusing
-                                        time: 1
-                                        type: Server
-                                      6:
-                                        Reason: Skin
-                                        time: 1
-                                        type: Server
-                                      7:
-                                        Reason: Hatespeech
-                                        time: 1
-                                        type: Chat
-                                      8:
-                                        Reason: Illegal buildings
-                                        time: 1
-                                        type: Server
-                                      9:
-                                        Reason: Beleidigung (Voice Mod)
-                                        time: 1
-                                        type: Server
-                                      10:
-                                        Reason: Soundbord (Voice Mod)
-                                        time: 1
-                                        type: Server
-                                      11:
-                                        Reason: Betteln
-                                        time: 1
-                                        type: Chat
-                                      12:
-                                         Reason: Ban Umgehung
-                                        time: 1
-                                        type: Server
-                                      Poins:
-                                        Max Poins: 1
-                                        Bantime: 1
-                                        BanReason: Maximale Anzahl an Verfahrnungen"""
+                                        1:
+                                          Reason: "Hacking"
+                                          time: 1
+                                          type: "Server"
+                                         \s
+                                        2:
+                                          Reason: "AD"
+                                          time: 1
+                                          type: "Chat"
+                                         \s
+                                        3:
+                                          Reason: "Spam"
+                                          time: 1
+                                          type: Chat
+                                         \s
+                                        4:
+                                          Reason: Insult
+                                          time: 1
+                                          type: Chat
+                                         \s
+                                        5:
+                                          Reason: Bugusing
+                                          time: 1
+                                          type: Server
+                                         \s
+                                        6:
+                                          Reason: Skin
+                                          time: 1
+                                          type: Server
+                                         \s
+                                        7:
+                                          Reason: Hatespeech
+                                          time: 1
+                                          type: Chat
+                                         \s
+                                        8:
+                                          Reason: Illegal buildings
+                                          time: 1
+                                          type: Server
+                                         \s
+                                        9:
+                                          Reason: Beleidigung (Voice Mod)
+                                          time: 1
+                                          type: Server
+                                         \s
+                                        10:
+                                          Reason: Soundbord (Voice Mod)
+                                          time: 1
+                                          type: Server
+                                         \s
+                                        11:
+                                          Reason: Betteln
+                                          time: 1
+                                          type: Chat
+                                   \s
+                                        12:
+                                          Reason: Ban Umgehung
+                                          time: 1
+                                          type: Server
+                                         \s
+                                        Poins:
+                                          Max Poins: 1
+                                          Bantime: 1
+                                          BanReason: Maximale Anzahl an Verfahrnungen"""
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -255,64 +267,51 @@ public class BanPlugin {
                 try (FileWriter writer = new FileWriter(messagesfile)) {
                     writer.write(
                             """
-                                # All ban times are given in hours
-                                # Ban type is Chat and Server
-                        
-                                Bans:
-                                  1:
-                                    Reason: "Hacking"
-                                    time: 1
-                                    type: "Server"
-                                  2:
-                                    Reason: "AD"
-                                    time: 1
-                                    type: "Chat"
-                                  3:
-                                    Reason: "Spam"
-                                    time: 1
-                                    type: "Chat"
-                                  4:
-                                    Reason: "Insult"
-                                    time: 1
-                                    type: "Chat"
-                                  5:
-                                    Reason: "Bugusing"
-                                    time: 1
-                                    type: "Server"
-                                  6:
-                                    Reason: "Skin"
-                                    time: 1
-                                    type: "Server"
-                                  7:
-                                    Reason: "Hatespeech"
-                                    time: 1
-                                    type: "Chat"
-                                  8:
-                                    Reason: "Illegal buildings"
-                                    time: 1
-                                    type: "Server"
-                                  9:
-                                    Reason: "Beleidigung (Voice Mod)"
-                                    time: 1
-                                    type: "Server"
-                                  10:
-                                    Reason: "Soundboard (Voice Mod)"
-                                    time: 1
-                                    type: "Server"
-                                  11:
-                                    Reason: "Betteln"
-                                    time: 1
-                                    type: "Chat"
-                                  12:
-                                    Reason: "Ban Umgehung"
-                                    time: 1
-                                    type: "Server"
-                        
-                                Poins:
-                                  Max_Poins: 1
-                                  Bantime: 1
-                                  BanReason: "Maximale Anzahl an Verfahrnungen"
-                            """
+                                    # Alle This Messages Support MIniMessages
+                                    # https://docs.advntr.dev/index.html
+                                   
+                                    Prefix: "You Server"
+                                    KickMessage: "%prefix% <newline> You have been warned/banned please Join New for more info"
+                                   
+                                    BanScreen: "%prefix% <newline>You are Banned <newline>Reason: %reason% <newline>until %time%<newline>You can make a unban application on unban.youserver.net"
+                                   
+                                    ReturnBan: "%prefix% You have the player %targetPlayer% banned from the server because of %reson%"
+                                    
+                                    ReturnChatban: "%prefix% You have the player %targetPlayer% banned from the Chat because of %reson%"
+                                    
+                                    tempbanhelp: "%prefix% Try /tempban <Player> <time in Hours> <type> <resion>"
+                                    tempbanerror: "Please check your entry"
+                                    
+                                    Banlog1: "========== %prefix% ========= <
+                                    newline>Points: %points%
+                                    <newline>Number of bans: %logssize%
+                                    <newline>last Ban:
+                                    <newline>Reason: %grund%
+                                    <newline>from: %fromplayer%
+                                    <newline>Date: %date%"
+                                    
+                                    Banlog2: "========== %prefix% ==========
+                                    <newline>Ban Nummer: %logIndex%
+                                    <newline>Ban:
+                                    <newline>Reason: %grund%
+                                    <newline>from: %fromplayer%
+                                    <newline>Date: %date%"
+                                    
+                                    BanHelp: "========== %prefix% ==========
+                                    <newline> /ban <Player> 1,2,3...
+                                    <newline /ban <Player> <time in Hours> <reson>
+                                    <newline> /unban <Player>"
+                                    
+                                    NotFoundPlayerData: "No entry found for this player."
+                                    
+                                    PlayerNotFound: "Player Not Found"
+                                    
+                                    Playerunban: "%prefix% You have unban The player %player%
+                                    
+                                    NOSQLConnectionERROR: "%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established."
+                                    
+                                    NoPermission: "%prefix% You have no Permissions to use this Command"
+                                    """
                     );
                 } catch (IOException e) {
                     logger.error("Could not create config file", e);
@@ -428,6 +427,7 @@ public class BanPlugin {
         }
     }
 
+    /*
     public void readMessagesConfig(String fileName) {
         Yaml yaml = new Yaml();
         try (InputStream inputStream = new FileInputStream(fileName)) {
@@ -449,10 +449,42 @@ public class BanPlugin {
             errortempban = (String) data.get("tempbanerror");
             banscreen = (String) data.get("BanScreen");
 
+            System.out.println(data.keySet()); // Gibt alle verfügbaren Schlüssel aus
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+     */
+
+    public void readMessagesConfig(String fileName) {
+        Yaml yaml = new Yaml();
+        try (InputStream inputStream = new FileInputStream(fileName)) {
+            Map<String, String> data = yaml.load(inputStream);
+
+            prefixMiniMessage = data.get("Prefix");
+            KickMessage = data.get("KickMessage");
+            ReturnBan = data.get("ReturnBan");
+            ReturnChatban = data.get("ReturnChatban");
+            Banlog1 = data.get("Banlog1");
+            Banlog2 = data.get("Banlog2");
+            NotFound =  data.get("NotFoundPlayerData");
+            BanHelp = data.get("BanHelp");
+            PlayerNotFound = data.get("PlayerNotFound");
+            Playerunban =  data.get("Playerunban");
+            ConnectionERROR = data.get("NOSQLConnectionERROR");
+            noperms = data.get("NoPermission");
+            tempbanhelp = data.get("tempbanhelp");
+            errortempban = data.get("tempbanerror");
+            banscreen = data.get("BanScreen");
+
+            System.out.println(data.keySet()); // Gibt alle verfügbaren Schlüssel aus
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private static void CollectionsCreate(){
         try (MongoClient mongoClient = MongoClients.create("mongodb://" + bansUsername + ":" + bansPassword + "@" + bansHost + ":" + bansPort + "/?authSource=" + bansDatabase + "&authMechanism=SCRAM-SHA-1")) {
@@ -462,13 +494,6 @@ public class BanPlugin {
                 database.createCollection("Bans");
                 return;
             }
-
-            /*
-            if (collectionExists(database, "BansIP")){
-                database.createCollection("BansIP");
-                return;
-            }
-             */
 
             if (collectionExists(database, "Banlog")){
                 database.createCollection("Banlog");
