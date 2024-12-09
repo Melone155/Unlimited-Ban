@@ -306,7 +306,7 @@ public class BanPlugin {
                                     
                                     PlayerNotFound: "Player Not Found"
                                     
-                                    Playerunban: "%prefix% You have unban The player %player%
+                                    Playerunban: "%prefix% You have unban The player %player%"
                                     
                                     NOSQLConnectionERROR: "%prefix% <newlien> Unfortunately we have made a mistake <newline> The conection to the database could not be established."
                                     

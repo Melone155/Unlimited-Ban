@@ -1,0 +1,8 @@
+{
+  "id": "banplugin",
+  "name": "BanPlugin",
+  "version": "1.0-SNAPSHOT",
+  "authors": ["Melone145"],
+  "dependencies": [],
+  "main": "de.melone.banplugin.BanPlugin"
+}
